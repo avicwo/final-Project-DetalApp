@@ -1,0 +1,49 @@
+#landingPage-leads-form{
+    /* background-color: rgb(78, 205, 237); */
+    width:200px;
+}
+
+#landingPage-main-container{
+    background-image: url(./landingpage1.jpg);
+}
+
+.landingpage-card1{
+    background-color: rgb(78, 205, 237);
+    color:white;
+    margin-left: 5px;
+    border-top-left-radius: 30px
+
+}
+.landingpage-card2{
+    background-color: rgb(60, 130, 212);    
+    color:white;
+    border-top-right-radius: 30px;
+
+}
+.landingpage-card3{
+    background-color: rgb(28, 73, 112);
+    color:white;
+    margin-right: 5px;
+    border-top-right-radius: 30px
+
+}
+#landingpage-img-round{
+    border-radius: 50%;
+}
+.landingpage-card-topmargin{
+    margin-top: 10px;
+}
+#landingpage-card-noborder{
+    border: none
+}
+/* .hight-70p{
+height: 300px;
+} */
+
+.carousel-item{
+    height: 300px;
+} 
+.carousel-item img{
+    height: 300px;
+    object-fit: contain;
+}
