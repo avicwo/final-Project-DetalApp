@@ -1,25 +1,20 @@
 import React from 'react';
 import './landingPage.css';
-import { Image, Carousel, CardDeck, Card, CardGroup, Nav, Navbar, Form, Button } from 'react-bootstrap';
-import capturecard1 from './icon1-eye.png';
-import capturecard2 from './capture2.PNG';
-import capturecarossel1 from './landingpage-carossel1.jpg'
-import capturecarossel2 from './landingpage-carossel2.jpg'
-import capturecarossel3 from './landingpage-carossel3.jpg'
-// import Footer_fb_icon from './footer_fb_icon.jpg'
-
-
-
-
-
+import { Carousel, CardDeck, Card, CardGroup, Form, Button } from 'react-bootstrap';
+import capturecard1 from '../../images/icon1-eye.png';
+import capturecard2 from '../../images/capture2.PNG';
+import capturecarossel1 from '../../images/landingpage-carossel1.jpg'
+import capturecarossel2 from '../../images/landingpage-carossel2.jpg'
+import capturecarossel3 from '../../images/landingpage-carossel3.jpg'
+import MyNavbar from '../../components/myNavbar'
 
 class LandingPage extends React.Component {
 
     constructor(props) {
         super(props);
-        // this.state = {
+        this.state = {
 
-        // }
+        }
     }
 
 
@@ -29,13 +24,8 @@ class LandingPage extends React.Component {
         return (
             <div>
                 <div id="landingPage-main-container">
-                    <Navbar bg="primary" variant="dark">
-                        <Navbar.Brand href="/">דנטלפורם</Navbar.Brand>
-                        <Nav className="mr-auto">
-                            {/* <Nav.Link href="#about">אודות</Nav.Link> */}
-                            <Nav.Link href="#Login">הכנס</Nav.Link>
-                        </Nav>
-                    </Navbar>
+                    <MyNavbar />
+
                     <div className="container" id="landingPage-container-1">
                         <div id="landingPage-leads-form">
                             <Form id="form-container" className="container">
@@ -197,9 +187,9 @@ class LandingPage extends React.Component {
                         ©Facebook
                         </a>
                         {/* Comment  adding an FB icon */}
-                    {/* </div> */}
-                {/* </Card.Footer> */} 
-                
+                {/* </div> */}
+                {/* </Card.Footer> */}
+
                 {/* <a href="https://www.freepik.com/free-photos-vectors/logo">Logo vector created by freepik - www.freepik.com</a> */}
             </div>
 

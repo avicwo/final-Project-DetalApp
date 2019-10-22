@@ -4,5 +4,7 @@ export class User {
         this.fname = parseUser.get("fname");
         this.lname = parseUser.get("lname");
         this.email = parseUser.get("email");
+        this.isAdmin = parseUser.get("isAdmin");
+
     }
 }
