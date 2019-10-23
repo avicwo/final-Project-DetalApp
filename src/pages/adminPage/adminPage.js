@@ -1,23 +1,62 @@
 import React from 'react';
-import { Table, Card, Accordion } from 'react-bootstrap'
+import { FormControl, InputGroup, Button, Table, Card, Accordion } from 'react-bootstrap'
 import BootstrapSwitchButton from 'bootstrap-switch-button-react'
 import { Redirect } from 'react-router-dom'
 import MyNavbar from '../../components/myNavbar'
-
-
+import Parse from 'parse'
+import { UserMd } from '../../data-model/UserMd';
 
 class AdminPage extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            // isAdminUser: null,
-            redirectToHome: false
+            redirectToHome: false,
+            mdList: [], //will contain all the md's
+            filteredMdList: []
         }
-        // console.log(this.props.activeUser)
+
         this.logout = this.logout.bind(this);
+        this.filterInput = this.filterInput.bind(this)
+    }
+
+    componentDidMount() {
+        var {mdList,filteredMdList    } = this.state;
+        // only if there is an active user we will make a call to the server
+        if (this.props.activeUser) {
+            // getting the active user recipes
+            const MdTable = Parse.Object.extend('User');
+            const query = new Parse.Query(MdTable);
+            query.equalTo("isAdmin", false);
+            query.find().then((results) => {
+                mdList = results.map(result => new UserMd(result));
+                filteredMdList = results.map(result => new UserMd(result));
+                // console.log('md found', mdList);
+
+                this.setState({ mdList, filteredMdList });
+            }, (error) => {
+                // if (typeof document !== 'undefined') document.write(`Error while fetching Recipe: ${JSON.stringify(error)}`);
+                console.error('Error while fetching doctor details', error);
+            });
+        }
+    }
+
+    filterInput(e) {
+        this.state.filteredMdList = [];
+        var filterText = e.target.value;
+        for (let i = 0; i < this.state.mdList.length; i++) {
+            if (this.state.mdList[i].fname.toLowerCase().includes(filterText.toLowerCase())) {
+                this.state.filteredMdList.push(this.state.mdList[i])
+            }
+            //   else {
+            //     this.state.mdList
+            //   }
+        }
+        this.setState(this.state)
+        // console.log( this.state.filteredMdList)
 
     }
+
 
     logout() {
         this.props.handleLogout();
@@ -26,30 +65,78 @@ class AdminPage extends React.Component {
         if (window.location.hash !== "/") {
             console.log(window.location.hash)
             this.setState({ redirectToHome: true })
-            // console.log(this.state.redirectToHome)
-            // console.log(this.state.redirectToHome)
         }
     }
-    // need to handle logout  - missing logout handling
     // need to add modal to addint a new dental doctor
     render() {
         const { activeUser, handleLogout } = this.props;
-        const { redirectToHome } = this.state;
+        const { redirectToHome, mdList, filteredMdList } = this.state;
+        // filteredMdList = mdList;
 
 
         if (redirectToHome || !activeUser) {
             return <Redirect to="/" />
         }
-        // const logoutLink = activeUser ? <Nav.Link onClick={this.logout}>התנתק</Nav.Link> : null;
-
         if (activeUser.isAdmin) {
             var admin = <p>היי {activeUser.fname}, מה תרצה לעשות היום? זה יוזר אדמין </p>
-
         }
         else {
             var notAdmin = <p>היי {activeUser.fname}, מה תרצה לעשות היום? זה לא יוזר אדמין</p>
-
         }
+
+        var mdCards = filteredMdList.map(md => <Card>
+            <Accordion.Toggle as={Card.Header} eventKey={md.id}>
+                <Table striped bordered hover variant="">
+                    <thead>
+                        <tr>
+                            <th>שם הרופא</th>
+                            <th>טלפון נייד </th>
+                            <th>מספר הטפסים שנשלחו</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{md.fname + " " + md.lname}</td>
+                            <td>{md.mobile}</td>
+                            <td>{md.forms}</td>
+                        </tr>
+                    </tbody>
+                </Table>
+            </Accordion.Toggle>
+            <Accordion.Collapse eventKey={md.id}>
+                <Card.Body>
+                    <Table striped bordered hover variant="">
+                        <thead>
+                            <tr>
+                                <th>כתובת המרפאה</th>
+                                <th>מומחיות</th>
+                                <th>אימייל </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{md.adress}</td>
+                                <td>{md.expertise}</td>
+                                <td>{md.email}</td>
+                            </tr>
+                            <BootstrapSwitchButton
+                                checked={true}
+                                onlabel='On'
+                                offlabel='Off'
+                                onChange={(checked) => {
+                                    // debugger;
+                                    this.setState({ isAdminUser: checked })
+                                }}
+                            />
+                        </tbody>
+                    </Table>
+                </Card.Body>
+            </Accordion.Collapse>
+        </Card>
+        )
+
+
+
 
 
         return (
@@ -59,72 +146,19 @@ class AdminPage extends React.Component {
                 {notAdmin}
                 {admin}
 
+                <InputGroup className="mb-3">
+                    <FormControl
+                        onChange={this.filterInput}
+                        placeholder="חפש רופא כאן..."
+                        // aria-label="Recipient's username"
+                        aria-describedby="basic-addon2"
+                    />
+
+                </InputGroup>
+
                 <Accordion defaultActiveKey="0">
-                    <Card>
-                        <Accordion.Toggle as={Card.Header} eventKey="0">
-                            <Table striped bordered hover variant="">
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>First Name</th>
-                                        <th>Last Name</th>
-                                        <th>Username</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>Mark</td>
-                                        <td>Otto</td>
-                                        <td>@mdo</td>
-                                    </tr>
 
-                                </tbody>
-                            </Table>
-                        </Accordion.Toggle>
-                        <Accordion.Collapse eventKey="0">
-                            <Card.Body>
-
-                                <Table striped bordered hover variant="">
-                                    <thead>
-                                        <tr>
-                                            <th>#</th>
-                                            <th> שם הרופא</th>
-                                            <th>נייד </th>
-                                            <th>מספר טפסים שנשלחו</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>שם הרופא</td>
-                                            <td>נייד</td>
-                                            <td>אימייל</td>
-                                            <td>כתובת המרפאה</td>
-                                        </tr>
-                                        <BootstrapSwitchButton
-                                            checked={false}
-                                            onlabel='On'
-                                            offlabel='Off'
-                                            onChange={(checked) => {
-                                                // debugger;
-                                                this.setState({ isAdminUser: checked })
-                                            }}
-                                        />
-                                    </tbody>
-                                </Table>
-
-                                Hello! I'm the body</Card.Body>
-                        </Accordion.Collapse>
-                    </Card>
-                    <Card>
-                        <Accordion.Toggle as={Card.Header} eventKey="1">
-                            Click me!
-                       </Accordion.Toggle>
-                        <Accordion.Collapse eventKey="1">
-                            <Card.Body>Hello! I'm another body</Card.Body>
-                        </Accordion.Collapse>
-                    </Card>
+                    {mdCards}
                 </Accordion>
 
             </div>

@@ -13,9 +13,33 @@ class LandingPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-
+            newreferral:[]
         }
     }
+
+    // createReferral() {
+
+    //     const {newReferral} = this.state;
+    //     const ReferralRow = Parse.Object.extend('Referral');
+    //     const newReferral = new ReferralRow();
+        
+    //     newRecipe.set('lname', this.nameInput.current.value);
+    //     newRecipe.set('fname',   this.descInput.current.value);
+    //     newRecipe.set('email', this.descInput.current.value);
+    //     newRecipe.set('userId', Parse.User.current());
+        
+    //     newRecipe.save().then(result => {
+    //         console.log('referral created', result);
+
+    //         const referral = new Referral(result);
+    //         const referrals = this.state.recipes.concat(recipe);
+    //         this.setState({recipes});
+    //       },
+    //       (error) => {
+    //         // if (typeof document !== 'undefined') document.write(`Error while creating Recipe: ${JSON.stringify(error)}`);
+    //         console.error('Error while creating Recipe: ', error);
+    //       }
+    //     );
 
 
     render() {

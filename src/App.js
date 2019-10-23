@@ -31,13 +31,13 @@ class App extends React.Component {
   }
 
   handleLogout() {
-    console.log(this.state.activeUser);
+    // console.log(this.state.activeUser);
     this.setState({ activeUser: null });
   }
 
   handleLogin(activeUser) {
     var a =activeUser
-    console.log("app handle login"+a)
+    // console.log("app handle login"+a)
     this.setState({ activeUser });
   }
 

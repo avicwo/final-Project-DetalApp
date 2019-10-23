@@ -30,13 +30,13 @@ class Login extends React.Component {
         if (e.key === "Enter") {
             Parse.User.logIn(this.emailInput.current.value, this.pwdInput.current.value).then(user => {
                 // Do stuff after successful login
-                console.log('Logged in user', user);
+                // console.log('Logged in user', user);
 
                 // calling App's callback function
                 // this.props.handleLogin(new User(user));
                 this.props.handleLogin(new User(user));
                 this.setState({ successLogin: true });
-                console.log(this.state.successLogin)
+                // console.log(this.state.successLogin)
 
             }).catch(error => {
                 console.error('Error while logging in user', error);
@@ -49,13 +49,13 @@ class Login extends React.Component {
 
         Parse.User.logIn(this.emailInput.current.value, this.pwdInput.current.value).then(user => {
             // Do stuff after successful login
-            console.log('Logged in user', user);
+            // console.log('Logged in user', user);
 
             // calling App's callback function
             // this.props.handleLogin(new User(user));
             this.props.handleLogin(new User(user));
             this.setState({ successLogin: true });
-            console.log(this.state.successLogin)
+            // console.log(this.state.successLogin)
 
         }).catch(error => {
             console.error('Error while logging in user', error);
@@ -77,7 +77,7 @@ class Login extends React.Component {
                     </Nav>
                 </Navbar>
 
-                <div className="login">
+                <div className="container login">
                     <h1>הכנס למערכת</h1>
                     <p>or <a href="#/signup">צור משתמש חדש</a></p>
                     <Alert variant="danger" show={this.state.invalidLogin}>

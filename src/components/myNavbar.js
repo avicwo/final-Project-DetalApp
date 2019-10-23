@@ -23,7 +23,7 @@ class myNavbar extends React.Component {
 
     render() {
         const { activeUser } = this.props;
-        console.log(activeUser);
+        // console.log(activeUser);
         const { redirectToHome } = this.state;
 
         if (redirectToHome) {
