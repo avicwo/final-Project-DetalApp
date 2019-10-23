@@ -58,6 +58,8 @@ class App extends React.Component {
           {/* here a user can:
           1. review the list of forms he sent
           2.create ew form
+          3. need to b able to search form by doc name, patiant name and id, form number
+
                      */}
           <MdPage activeUser={activeUser} handleLogin={this.handleLogin} />
         </Route>
@@ -76,6 +78,9 @@ class App extends React.Component {
           create another table of doc, all additional input such as is disabled will be there - it is becuse the user table of parse cant be changed
           4. send sms reminder to potential patiants on thier q 
           5. need to be able to feel a form in behalf of a doctor
+          6. need to b able to search form by doc name, patiant name and id, form number 
+          7. need to think on the use case - what the institute need when a user arrive? should they search for a form first? sould they search a md and then form or patiant?
+          8. maybe we should show all md in a table and by pressing on md we will enter to the md page where we will see all of his forms
            */}
           <AdminPage activeUser={activeUser} handleLogout={this.handleLogout} />
         </Route>
