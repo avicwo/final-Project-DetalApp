@@ -36,7 +36,6 @@ class App extends React.Component {
   }
 
   handleLogin(activeUser) {
-    var a =activeUser
     // console.log("app handle login"+a)
     this.setState({ activeUser });
   }

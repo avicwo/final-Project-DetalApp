@@ -39,13 +39,18 @@ class AdminPage extends React.Component {
                 console.error('Error while fetching doctor details', error);
             });
         }
+
     }
 
     filterInput(e) {
+        
         this.state.filteredMdList = [];
         var filterText = e.target.value;
         for (let i = 0; i < this.state.mdList.length; i++) {
-            if (this.state.mdList[i].fname.toLowerCase().includes(filterText.toLowerCase())) {
+            if (this.state.mdList[i].fname.toLowerCase().includes(filterText.toLowerCase())
+           || this.state.mdList[i].lname.toLowerCase().includes(filterText.toLowerCase())
+           || this.state.mdList[i].mobile.toLowerCase().includes(filterText.toLowerCase())
+            ) {
                 this.state.filteredMdList.push(this.state.mdList[i])
             }
             //   else {
@@ -98,7 +103,7 @@ class AdminPage extends React.Component {
                         <tr>
                             <td>{md.fname + " " + md.lname}</td>
                             <td>{md.mobile}</td>
-                            <td>{md.forms}</td>
+                            <td>{md.forms.length}</td>
                         </tr>
                     </tbody>
                 </Table>
@@ -149,7 +154,7 @@ class AdminPage extends React.Component {
                 <InputGroup className="mb-3">
                     <FormControl
                         onChange={this.filterInput}
-                        placeholder="חפש רופא כאן..."
+                        placeholder="חפש רופא כאן לפי שם פרטי, שם משפחה או מספר נייד..."
                         // aria-label="Recipient's username"
                         aria-describedby="basic-addon2"
                     />
