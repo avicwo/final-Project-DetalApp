@@ -15,7 +15,7 @@ class Login extends React.Component {
         super(props);
         this.state = {
             invalidLogin: false,
-            successLogin: false,           
+            successLogin: false,
             //  successLogin: true
 
 
@@ -29,44 +29,36 @@ class Login extends React.Component {
     handleKeyPress(e) {
         if (e.key === "Enter") {
             Parse.User.logIn(this.emailInput.current.value, this.pwdInput.current.value).then(user => {
-                // Do stuff after successful login
-                // console.log('Logged in user', user);
-
-                // calling App's callback function
-                // this.props.handleLogin(new User(user));
                 this.props.handleLogin(new User(user));
                 this.setState({ successLogin: true });
-                // console.log(this.state.successLogin)
-
             }).catch(error => {
                 console.error('Error while logging in user', error);
                 this.setState({ invalidLogin: true });
             })
         };
     }
-    
+
     login() {
 
         Parse.User.logIn(this.emailInput.current.value, this.pwdInput.current.value).then(user => {
-            // Do stuff after successful login
-            // console.log('Logged in user', user);
-
-            // calling App's callback function
-            // this.props.handleLogin(new User(user));
             this.props.handleLogin(new User(user));
             this.setState({ successLogin: true });
-            // console.log(this.state.successLogin)
-
         }).catch(error => {
             console.error('Error while logging in user', error);
             this.setState({ invalidLogin: true });
         });
+        return
     }
-
+ 
 
     render() {
-        if (this.state.successLogin) {
+        if (this.state.successLogin && this.props.activeUser.isAdmin===true) {
+            console.log(this.props.activeUser)
+
             return <Redirect to="/adminPage" />
+
+        } else if (this.state.successLogin && this.props.activeUser.isAdmin===false) {
+            return  <Redirect to="/MdPage" />
         }
 
         return (

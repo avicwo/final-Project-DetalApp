@@ -1,4 +1,4 @@
-export class UserMd {
+export  class UserMd {
     constructor(parseUser) {
         this.id = parseUser.id;
         this.fname = parseUser.get("fname");

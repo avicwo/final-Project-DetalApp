@@ -1,10 +1,12 @@
 import React from 'react';
-import { FormControl, InputGroup, Button, Table, Card, Accordion } from 'react-bootstrap'
-import BootstrapSwitchButton from 'bootstrap-switch-button-react'
-import { Redirect } from 'react-router-dom'
-import MyNavbar from '../../components/myNavbar'
-import Parse from 'parse'
+import { FormControl, InputGroup, Button, Table, Card, Accordion } from 'react-bootstrap';
+import BootstrapSwitchButton from 'bootstrap-switch-button-react';
+import { Redirect } from 'react-router-dom';
+import MyNavbar from '../../components/myNavbar';
+import Parse from 'parse';
 import { UserMd } from '../../data-model/UserMd';
+import './adminPage.css';
+
 
 class AdminPage extends React.Component {
 
@@ -39,7 +41,6 @@ class AdminPage extends React.Component {
                 console.error('Error while fetching doctor details', error);
             });
         }
-
     }
 
     filterInput(e) {
@@ -71,11 +72,12 @@ class AdminPage extends React.Component {
             console.log(window.location.hash)
             this.setState({ redirectToHome: true })
         }
+
     }
     // need to add modal to addint a new dental doctor
     render() {
         const { activeUser, handleLogout } = this.props;
-        const { redirectToHome, mdList, filteredMdList } = this.state;
+        const { redirectToHome,  filteredMdList } = this.state;
         // filteredMdList = mdList;
 
 
@@ -92,15 +94,15 @@ class AdminPage extends React.Component {
         var mdCards = filteredMdList.map(md => <Card>
             <Accordion.Toggle as={Card.Header} eventKey={md.id}>
                 <Table striped bordered hover variant="">
-                    <thead>
-                        <tr>
+                    <thead className="remove-borders">
+                        <tr className="remove-borders">
                             <th>שם הרופא</th>
                             <th>טלפון נייד </th>
                             <th>מספר הטפסים שנשלחו</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
+                    <tbody className="remove-borders">
+                        <tr className="remove-borders">
                             <td>{md.fname + " " + md.lname}</td>
                             <td>{md.mobile}</td>
                             <td>{md.forms.length}</td>
@@ -111,20 +113,21 @@ class AdminPage extends React.Component {
             <Accordion.Collapse eventKey={md.id}>
                 <Card.Body>
                     <Table striped bordered hover variant="">
-                        <thead>
-                            <tr>
+                        <thead className="remove-borders">
+                            <tr >
                                 <th>כתובת המרפאה</th>
                                 <th>מומחיות</th>
                                 <th>אימייל </th>
+                                <th> </th>
+
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody className="remove-borders"> 
                             <tr>
                                 <td>{md.adress}</td>
                                 <td>{md.expertise}</td>
                                 <td>{md.email}</td>
-                            </tr>
-                            <BootstrapSwitchButton
+                                <td> <BootstrapSwitchButton
                                 checked={true}
                                 onlabel='On'
                                 offlabel='Off'
@@ -132,7 +135,9 @@ class AdminPage extends React.Component {
                                     // debugger;
                                     this.setState({ isAdminUser: checked })
                                 }}
-                            />
+                            /></td>
+                            </tr>
+                           
                         </tbody>
                     </Table>
                 </Card.Body>

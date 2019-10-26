@@ -3,43 +3,60 @@ import './landingPage.css';
 import { Carousel, CardDeck, Card, CardGroup, Form, Button } from 'react-bootstrap';
 import capturecard1 from '../../images/icon1-eye.png';
 import capturecard2 from '../../images/capture2.PNG';
-import capturecarossel1 from '../../images/landingpage-carossel1.jpg'
-import capturecarossel2 from '../../images/landingpage-carossel2.jpg'
-import capturecarossel3 from '../../images/landingpage-carossel3.jpg'
-import MyNavbar from '../../components/myNavbar'
+import capturecarossel1 from '../../images/landingpage-carossel1.jpg';
+import capturecarossel2 from '../../images/landingpage-carossel2.jpg';
+import capturecarossel3 from '../../images/landingpage-carossel3.jpg';
+import MyNavbar from '../../components/myNavbar';
+import Parse from 'parse';
+import Leads from '../../data-model/Leads';
+
 
 class LandingPage extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            newreferral:[]
+            newreferral: [],
+            newMdLead: {}
         }
+        this.createLead = this.createLead.bind(this)
+        // this.preventDefault=this.preventDefault.bind(this)
+
+        this.lnameInput = React.createRef();
+        this.fnameInput = React.createRef();
+        this.emailInput = React.createRef();
     }
 
-    // createReferral() {
+    createLead() {
 
-    //     const {newReferral} = this.state;
-    //     const ReferralRow = Parse.Object.extend('Referral');
-    //     const newReferral = new ReferralRow();
-        
-    //     newRecipe.set('lname', this.nameInput.current.value);
-    //     newRecipe.set('fname',   this.descInput.current.value);
-    //     newRecipe.set('email', this.descInput.current.value);
-    //     newRecipe.set('userId', Parse.User.current());
-        
-    //     newRecipe.save().then(result => {
-    //         console.log('referral created', result);
+        const LeadsRow = Parse.Object.extend('Leads');
+        const newMdLead = new LeadsRow();
 
-    //         const referral = new Referral(result);
-    //         const referrals = this.state.recipes.concat(recipe);
-    //         this.setState({recipes});
-    //       },
-    //       (error) => {
-    //         // if (typeof document !== 'undefined') document.write(`Error while creating Recipe: ${JSON.stringify(error)}`);
-    //         console.error('Error while creating Recipe: ', error);
-    //       }
-    //     );
+        newMdLead.set('userId', Parse.User.current());
+        newMdLead.set('fname', this.fnameInput.current.value);
+        newMdLead.set('lname', this.lnameInput.current.value);
+        newMdLead.set('email', this.emailInput.current.value);
+
+        newMdLead.save().then(result => {
+
+            var leads = new Leads(result);
+            console.log(leads)
+            // this.setState({recipes});
+
+        },
+            (error) => {
+                // if (typeof document !== 'undefined') document.write(`Error while creating Recipe: ${JSON.stringify(error)}`);
+                console.error('Error while creating Referral: ', error);
+            })
+        this.fnameInput.current.value = ""
+        this.lnameInput.current.value = ""
+        this.emailInput.current.value = ""
+
+    }
+    // preventDefault(e) {
+    //     e.preventDefault()
+    // }
+
 
 
     render() {
@@ -59,19 +76,19 @@ class LandingPage extends React.Component {
                                     מלא/י את פרטיך כאן וניצור עמך קשר בהקדם
                             </Form.Text>
                                 <Form.Group controlId="formBasicPassword">
-                                    <Form.Control type="text" placeholder="שם פרטי" />
+                                    <Form.Control ref={this.fnameInput} type="text" placeholder="שם פרטי" />
                                 </Form.Group>
                                 <Form.Group controlId="formBasicPassword">
-                                    <Form.Control type="text" placeholder="שם משפחה" />
+                                    <Form.Control ref={this.lnameInput} type="text" placeholder="שם משפחה" />
                                 </Form.Group>
                                 <Form.Group controlId="formBasicEmail">
-                                    <Form.Control type="email" placeholder="Jhone.d@gmail.com" />
+                                    <Form.Control ref={this.emailInput} type="email" placeholder="Jhone.d@gmail.com" />
                                     <Form.Text className="text-muted">
                                         פרטיך האישיים לא ישותפו
                                  </Form.Text>
                                 </Form.Group>
 
-                                <Button variant="primary" type="submit">
+                                <Button onClick={this.createLead} variant="primary" type="submit">
                                     שלח
                             </Button>
                             </Form>
@@ -202,6 +219,7 @@ class LandingPage extends React.Component {
                     </Carousel>
                 </div>
 
+
                 {/* <Card.Footer>
 
                     <div class="footer-copyright text-center py-3"> 2018 Copyright:
@@ -211,11 +229,11 @@ class LandingPage extends React.Component {
                         ©Facebook
                         </a>
                         {/* Comment  adding an FB icon */}
-                {/* </div> */}
-                {/* </Card.Footer> */}
+        {/* </div> */ }
+        {/* </Card.Footer> */ }
 
-                {/* <a href="https://www.freepik.com/free-photos-vectors/logo">Logo vector created by freepik - www.freepik.com</a> */}
-            </div>
+        {/* <a href="https://www.freepik.com/free-photos-vectors/logo">Logo vector created by freepik - www.freepik.com</a> */ }
+            </div >
 
         );
     }
