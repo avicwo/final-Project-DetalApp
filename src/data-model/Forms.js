@@ -1,6 +1,6 @@
 export class Forms {
     constructor(parseForms) {
-        this.formId = parseForms.formId;
+        this.formId = parseForms.id;
         this.fname = parseForms.get("fname");
         this.lname = parseForms.get("lname");
         this.mobile = parseForms.get("mobile");

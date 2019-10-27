@@ -102,3 +102,8 @@ export default App;
 //  2. fix thestructure of the md page - the headers shouldnt return
 //  3. fix the ts error i have
 //  4. how to alow only admin user to login my admin page - used conditinal render on the active user props, is this the way?
+//  5. create unique formid - object id=id
+//  6. Add confirmation massege on the leads - add validation on email
+//  7. the form should be component
+//  8. active the project in   github pages
+//  9. how to access ctType 

@@ -1,10 +1,11 @@
 import React from 'react';
-import {Form, FormControl, InputGroup, Table, Card, Accordion } from 'react-bootstrap';
+import { Row, Col, Button, Modal, Form, FormControl, InputGroup, Table, Card, Accordion } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
 import MyNavbar from '../../components/myNavbar';
 import Parse from 'parse';
 import { Forms } from '../../data-model/Forms';
 import './mdPage.css';
+import PatiantForm from '../../components/patiantForm'
 
 
 class MdPage extends React.Component {
@@ -18,10 +19,14 @@ class MdPage extends React.Component {
 
             // filteredFormsList:[],
             mdForms: [],
+            showModal: false
 
         }
 
         this.logout = this.logout.bind(this);
+        this.openModal = this.openModal.bind(this);
+        this.closeModal = this.closeModal.bind(this);
+
         // this.filterInput = this.filterInput.bind(this)
     }
 
@@ -37,12 +42,11 @@ class MdPage extends React.Component {
             query.find().then((results) => {
                 mdForms = results.map(result => new Forms(result));
                 // filteredFormsList = results.map(result => new Form(result));
-                console.log('md found', mdForms);
+                console.log('md found', mdForms[0].mobile);
                 console.log('md found', this.props.activeUser);
 
-                this.setState({ mdForms  });
+                this.setState({ mdForms });
             }, (error) => {
-                // if (typeof document !== 'undefined') document.write(`Error while fetching Recipe: ${JSON.stringify(error)}`);
                 console.error('Error while fetching doctor details', error);
             });
         }
@@ -79,11 +83,25 @@ class MdPage extends React.Component {
         }
 
     }
+
+
     // need to add modal to addint a new dental doctor
+
+    openModal() {
+        this.setState({ showModal: true })
+    }
+
+    closeModal() {
+        this.setState({ showModal: false })
+    }
+
     render() {
         const { activeUser, handleLogout } = this.props;
-        const { redirectToHome ,mdForms} = this.state;
+        const { redirectToHome, mdForms, showModal } = this.state;
         // filteredmdForms = mdForms;
+
+        console.log(mdForms[0]);
+
 
 
         if (redirectToHome || !activeUser) {
@@ -98,7 +116,8 @@ class MdPage extends React.Component {
         }
 
         var mdCardsForms = mdForms.map(md => <Card>
-            <Accordion.Toggle as={Card.Header} eventKey={md.id}>
+
+            <Accordion.Toggle as={Card.Header} eventKey={md.formId}>
                 <Table striped bordered hover variant="">
                     <thead className="remove-borders">
                         <tr className="remove-borders">
@@ -111,12 +130,12 @@ class MdPage extends React.Component {
                         <tr className="remove-borders">
                             <td>{md.fname + " " + md.lname}</td>
                             <td>{md.mobile}</td>
-                            {/* <td>{md.forms.length}</td> */}
+                            <td>{md.orth_facial_type}</td>
                         </tr>
                     </tbody>
                 </Table>
             </Accordion.Toggle>
-            <Accordion.Collapse eventKey={md.id}>
+            <Accordion.Collapse eventKey={md.formId}>
                 <Card.Body>
                     <Table striped bordered hover variant="">
                         <thead className="remove-borders">
@@ -132,7 +151,7 @@ class MdPage extends React.Component {
                                 <td>{md.adress}</td>
                                 <td>{md.expertise}</td>
                                 <td>{md.email}</td>
-                          
+
                             </tr>
 
                         </tbody>
@@ -149,6 +168,7 @@ class MdPage extends React.Component {
                 {notAdmin}
                 {admin}
 
+
                 <InputGroup className="mb-3">
                     <FormControl
                         // onChange={this.filterInput}
@@ -160,9 +180,50 @@ class MdPage extends React.Component {
                 </InputGroup>
 
                 <Accordion defaultActiveKey="0">
+                    <Button variant="primary" onClick={this.openModal}>טופס חדש</Button>
 
                     {mdCardsForms}
                 </Accordion>
+
+
+                <PatiantForm closeModal={this.closeModal} showModal={showModal} />
+                {/* <Modal show={showModal} onHide={this.closeModal} size="lg">
+                    <Modal.Header closeButton>
+                        <Modal.Title>  הפנייה חדשה לדנטלפורם</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <Form>
+                            <Form.Group as={Row} controlId="formHorizontalEmail">
+                                <Form.Label column sm={2}>
+                                    שם
+                                </Form.Label>
+                                <Col sm={10}>
+                                    <Form.Control ref={this.fnameInput} type="text" placeholder="השם הפרטי של המטופל" />
+                                </Col>
+                            </Form.Group>
+
+                            <Form.Group as={Row} controlId="formHorizontalPassword">
+                                <Form.Label column sm={2}>
+                                    שם משפחה
+                                </Form.Label>
+                                <Col sm={10}>
+                                    <Form.Control ref={this.lnameInput} type="text" placeholder="שם המשפחה של המטופל" />
+                                </Col>
+                            </Form.Group>
+
+
+
+                        </Form>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={this.closeModal}>
+                            Close
+                        </Button>
+                        <Button variant="primary" onClick={this.createRecipe}>
+                            צור טופס הפנייה חדש
+                            </Button>
+                    </Modal.Footer>
+                </Modal> */}
 
             </div>
         );

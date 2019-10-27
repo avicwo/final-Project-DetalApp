@@ -2,7 +2,7 @@
   "name": "final-project",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://myusername.github.io/final-Project-DetalApp",
+  "homepage": "https://avicwo.github.io/final-Project-DetalApp",
   "dependencies": {
     "bootstrap": "^4.3.1",
     "parse": "^2.7.1",
@@ -14,6 +14,8 @@
     "react-scripts": "3.1.1"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -35,6 +37,7 @@
     ]
   },
   "devDependencies": {
-    "bootstrap-switch-button-react": "^1.1.0"
+    "bootstrap-switch-button-react": "^1.1.0",
+    "gh-pages": "^2.1.1"
   }
 }

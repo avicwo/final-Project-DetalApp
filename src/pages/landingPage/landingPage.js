@@ -88,7 +88,7 @@ class LandingPage extends React.Component {
                                  </Form.Text>
                                 </Form.Group>
 
-                                <Button onClick={this.createLead} variant="primary" type="submit">
+                                <Button onClick={this.createLead} variant="primary" type="button">
                                     שלח
                             </Button>
                             </Form>
