@@ -107,3 +107,5 @@ export default App;
 //  7. the form should be component
 //  8. active the project in   github pages
 //  9. how to access ctType 
+//  10. add email after lead generation
+//  https://www.w3schools.com/howto/howto_js_form_steps.asp

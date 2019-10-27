@@ -26,8 +26,11 @@ class MdPage extends React.Component {
         this.logout = this.logout.bind(this);
         this.openModal = this.openModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
-
+        this.createPatiantForm = this.createPatiantForm.bind(this);
+        
         // this.filterInput = this.filterInput.bind(this)
+
+       
     }
 
     componentDidMount() {
@@ -50,7 +53,33 @@ class MdPage extends React.Component {
                 console.error('Error while fetching doctor details', error);
             });
         }
+    
     }
+
+    createPatiantForm(lnameValue,fnameValue) {
+        
+
+        const PatiantFormRow = Parse.Object.extend('Forms');
+        const newPatiantForm = new PatiantFormRow();
+
+        newPatiantForm.set('lname', lnameValue);
+        newPatiantForm.set('fname', fnameValue);
+        newPatiantForm.set('userId', Parse.User.current());
+        
+        newPatiantForm.save().then(result => {
+            console.log('form created', result);
+
+            const form = new PatiantForm(result);
+            const forms = this.state.mdForms.concat(form);
+            this.setState({forms});
+          },
+          (error) => {
+            // if (typeof document !== 'undefined') document.write(`Error while creating Recipe: ${JSON.stringify(error)}`);
+            console.error('Error while creating Recipe: ', error);
+          }
+        );
+    }
+
 
     // filterInput(e) {
 
@@ -186,7 +215,7 @@ class MdPage extends React.Component {
                 </Accordion>
 
 
-                <PatiantForm closeModal={this.closeModal} showModal={showModal} />
+                <PatiantForm createPatiantForm={this.createPatiantForm} closeModal={this.closeModal} showModal={showModal} />
                 {/* <Modal show={showModal} onHide={this.closeModal} size="lg">
                     <Modal.Header closeButton>
                         <Modal.Title>  הפנייה חדשה לדנטלפורם</Modal.Title>
