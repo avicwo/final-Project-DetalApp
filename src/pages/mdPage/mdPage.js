@@ -7,7 +7,6 @@ import { Forms } from '../../data-model/Forms';
 import './mdPage.css';
 import PatiantForm from '../../components/patiantForm'
 
-
 class MdPage extends React.Component {
 
     constructor(props) {
@@ -19,13 +18,12 @@ class MdPage extends React.Component {
 
             // filteredFormsList:[],
             mdForms: [],
-            showModal: false
+            redirectTomdFormPage: false
 
         }
 
         this.logout = this.logout.bind(this);
-        this.openModal = this.openModal.bind(this);
-        this.closeModal = this.closeModal.bind(this);
+        this.redirectTomdFormPage = this.redirectTomdFormPage.bind(this);
         this.createPatiantForm = this.createPatiantForm.bind(this);
         
         // this.filterInput = this.filterInput.bind(this)
@@ -116,17 +114,17 @@ class MdPage extends React.Component {
 
     // need to add modal to addint a new dental doctor
 
-    openModal() {
-        this.setState({ showModal: true })
+    redirectTomdFormPage() {
+        this.setState({ redirectTomdFormPage: true })
+        console.log(this.state.redirectTomdFormPage)
+        return
     }
 
-    closeModal() {
-        this.setState({ showModal: false })
-    }
+  
 
     render() {
         const { activeUser, handleLogout } = this.props;
-        const { redirectToHome, mdForms, showModal } = this.state;
+        const { redirectToHome, mdForms, redirectTomdFormPage } = this.state;
         // filteredmdForms = mdForms;
 
         console.log(mdForms[0]);
@@ -136,13 +134,16 @@ class MdPage extends React.Component {
         if (redirectToHome || !activeUser) {
             return <Redirect to="/" />
         }
+         if(redirectTomdFormPage && activeUser){
+            return <Redirect to="/mdFormPage" />
+        } 
+
         if (activeUser.isAdmin) {
 
             var admin = <p>היי {activeUser.fname}, מה תרצה לעשות היום? זה יוזר אדמין דף רופאים </p>
-        }
-        else {
+        } else if(!activeUser.isAdmin){
             var notAdmin = <p>היי {activeUser.fname}, מה תרצה לעשות היום? זה לא יוזר אדמין דף רופאים</p>
-        }
+        } 
 
         var mdCardsForms = mdForms.map(md => <Card>
 
@@ -209,50 +210,14 @@ class MdPage extends React.Component {
                 </InputGroup>
 
                 <Accordion defaultActiveKey="0">
-                    <Button variant="primary" onClick={this.openModal}>טופס חדש</Button>
+                    <Button variant="primary" onClick={this.redirectTomdFormPage}>טופס חדש</Button>
 
                     {mdCardsForms}
                 </Accordion>
 
 
-                <PatiantForm createPatiantForm={this.createPatiantForm} closeModal={this.closeModal} showModal={showModal} />
-                {/* <Modal show={showModal} onHide={this.closeModal} size="lg">
-                    <Modal.Header closeButton>
-                        <Modal.Title>  הפנייה חדשה לדנטלפורם</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <Form>
-                            <Form.Group as={Row} controlId="formHorizontalEmail">
-                                <Form.Label column sm={2}>
-                                    שם
-                                </Form.Label>
-                                <Col sm={10}>
-                                    <Form.Control ref={this.fnameInput} type="text" placeholder="השם הפרטי של המטופל" />
-                                </Col>
-                            </Form.Group>
-
-                            <Form.Group as={Row} controlId="formHorizontalPassword">
-                                <Form.Label column sm={2}>
-                                    שם משפחה
-                                </Form.Label>
-                                <Col sm={10}>
-                                    <Form.Control ref={this.lnameInput} type="text" placeholder="שם המשפחה של המטופל" />
-                                </Col>
-                            </Form.Group>
-
-
-
-                        </Form>
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="secondary" onClick={this.closeModal}>
-                            Close
-                        </Button>
-                        <Button variant="primary" onClick={this.createRecipe}>
-                            צור טופס הפנייה חדש
-                            </Button>
-                    </Modal.Footer>
-                </Modal> */}
+                {/* <PatiantForm createPatiantForm={this.createPatiantForm}  redirectTomdFormPage={this.redirectTomdFormPage} /> */}
+               
 
             </div>
         );
