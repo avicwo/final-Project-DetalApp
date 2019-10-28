@@ -18,17 +18,18 @@ class MdPage extends React.Component {
 
             // filteredFormsList:[],
             mdForms: [],
+            formId:[],
             redirectTomdFormPage: false
 
         }
 
         this.logout = this.logout.bind(this);
         this.redirectTomdFormPage = this.redirectTomdFormPage.bind(this);
-        this.createPatiantForm = this.createPatiantForm.bind(this);
-        
+        this.createFormId = this.createFormId.bind(this);
+
         // this.filterInput = this.filterInput.bind(this)
 
-       
+
     }
 
     componentDidMount() {
@@ -51,32 +52,51 @@ class MdPage extends React.Component {
                 console.error('Error while fetching doctor details', error);
             });
         }
+
+    }
+
+
+    createFormId(){
+
+
+            const PatiantFormRow = Parse.Object.extend('Forms');
+            const newPatiantForm = new PatiantFormRow();
     
-    }
+            newPatiantForm.set('userId', Parse.User.current());
+            newPatiantForm.save().then(result => {
+                console.log('form created', result);
+    
+                const form = new PatiantForm(result);
+                const forms = this.state.mdForms.concat(form);
+                this.setState({ formId });
+            },
+                (error) => {
+                    console.error('Error while creating Recipe: ', error);
+                }
+            );
+        }
 
-    createPatiantForm(lnameValue,fnameValue) {
-        
+    // createPatiantForm(lnameValue, fnameValue) {
 
-        const PatiantFormRow = Parse.Object.extend('Forms');
-        const newPatiantForm = new PatiantFormRow();
 
-        newPatiantForm.set('lname', lnameValue);
-        newPatiantForm.set('fname', fnameValue);
-        newPatiantForm.set('userId', Parse.User.current());
-        
-        newPatiantForm.save().then(result => {
-            console.log('form created', result);
+    //     const PatiantFormRow = Parse.Object.extend('Forms');
+    //     const newPatiantForm = new PatiantFormRow();
 
-            const form = new PatiantForm(result);
-            const forms = this.state.mdForms.concat(form);
-            this.setState({forms});
-          },
-          (error) => {
-            // if (typeof document !== 'undefined') document.write(`Error while creating Recipe: ${JSON.stringify(error)}`);
-            console.error('Error while creating Recipe: ', error);
-          }
-        );
-    }
+    //     newPatiantForm.set('lname', lnameValue);
+    //     newPatiantForm.set('fname', fnameValue);
+    //     newPatiantForm.set('userId', Parse.User.current());
+    //     newPatiantForm.save().then(result => {
+    //         console.log('form created', result);
+
+    //         const form = new PatiantForm(result);
+    //         const forms = this.state.mdForms.concat(form);
+    //         this.setState({ forms });
+    //     },
+    //         (error) => {
+    //             console.error('Error while creating Recipe: ', error);
+    //         }
+    //     );
+    // }
 
 
     // filterInput(e) {
@@ -120,7 +140,7 @@ class MdPage extends React.Component {
         return
     }
 
-  
+
 
     render() {
         const { activeUser, handleLogout } = this.props;
@@ -134,16 +154,16 @@ class MdPage extends React.Component {
         if (redirectToHome || !activeUser) {
             return <Redirect to="/" />
         }
-         if(redirectTomdFormPage && activeUser){
+        if (redirectTomdFormPage && activeUser) {
             return <Redirect to="/mdFormPage" />
-        } 
-
+        }
+        // props.match.param.id
         if (activeUser.isAdmin) {
 
             var admin = <p>היי {activeUser.fname}, מה תרצה לעשות היום? זה יוזר אדמין דף רופאים </p>
-        } else if(!activeUser.isAdmin){
+        } else if (!activeUser.isAdmin) {
             var notAdmin = <p>היי {activeUser.fname}, מה תרצה לעשות היום? זה לא יוזר אדמין דף רופאים</p>
-        } 
+        }
 
         var mdCardsForms = mdForms.map(md => <Card>
 
@@ -210,14 +230,13 @@ class MdPage extends React.Component {
                 </InputGroup>
 
                 <Accordion defaultActiveKey="0">
-                    <Button variant="primary" onClick={this.redirectTomdFormPage}>טופס חדש</Button>
+                    <Button variant="primary" onClick={this.redirectTomdFormPage,this.createFormId}>טופס חדש</Button>
 
                     {mdCardsForms}
                 </Accordion>
 
 
-                {/* <PatiantForm createPatiantForm={this.createPatiantForm}  redirectTomdFormPage={this.redirectTomdFormPage} /> */}
-               
+
 
             </div>
         );

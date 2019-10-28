@@ -2,7 +2,55 @@ import React from 'react'
 import './patiantForm.css'
 import { Redirect } from 'react-router-dom'
 import { Row, Col, Button, Modal, Form, FormControl, InputGroup, Table, Card, Accordion } from 'react-bootstrap';
+// import MultiStep from 'react-multistep'
+const MultiStep = import from 'react-multistep'
 
+
+class StepTwo extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+        }
+    }
+
+    render() {
+        return (
+
+            <div>
+                <Form.Group controlId="formBasicEmail">
+                    <Form.Label>Email address</Form.Label>
+                    <Form.Control type="email" placeholder="Enter email" />
+                </Form.Group>
+
+            </div>
+        )
+
+    }
+
+}
+
+
+class StepOne extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+        }
+    }
+
+    render() {
+        return (
+
+            <div>
+                <Form.Group controlId="formBasicEmail">
+                    <Form.Label>Email address</Form.Label>
+                    <Form.Control type="email" placeholder="Enter email" />
+                </Form.Group>
+            </div>
+        )
+
+    }
+
+}
 
 class PatiantForm extends React.Component {
     constructor(props) {
@@ -11,33 +59,26 @@ class PatiantForm extends React.Component {
             // redirectToHome: false
         }
 
-        this.closeModal = this.closeModal.bind(this);
-        this.createPatiantForm=this.createPatiantForm.bind(this);
-
-        this.fnameInput = React.createRef();
-        this.lnameInput = React.createRef();
+        // this.createPatiantForm = this.createPatiantForm.bind(this);
+        // this.fnameInput = React.createRef();
+        // this.lnameInput = React.createRef();
     }
 
-    // logout() {
-    //     this.props.handleLogout();
-
-    //     if (window.location.hash !== "#/") {
-    //         this.setState({ redirectToHome: true })
-    //     }
+    // createPatiantForm() {
+    //     this.props.createPatiantForm(this.lnameInput.current.value, this.fnameInput.current.value)
+    //     this.closeModal()
     // }
 
-    closeModal() {
-        this.props.closeModal()
+    render() {
+        const { activeUser } = this.props;
 
-    }
-    createPatiantForm() {
-          this.props.createPatiantForm(this.lnameInput.current.value,this.fnameInput.current.value)
-          this.closeModal()
-    }
-
-    render() {  
-        const { showModal } = this.props;
-        // console.log(activeUser);
+        const steps = [
+            { name: 'StepOne', component: <StepOne /> },
+            { name: 'StepTwo', component: <StepTwo /> },
+            { name: 'StepThree', component: <StepThree /> },
+            { name: 'StepFour', component: <StepFour /> }
+        ];
+        // console.log(forms)
         // const { redirectToHome } = this.state;
 
         // if (redirectToHome) {
@@ -48,43 +89,13 @@ class PatiantForm extends React.Component {
 
         return (
             <div>
-                <Modal show={showModal} onHide={this.closeModal}  dialogClassName="modal-90w">
-                    <Modal.Header closeButton>
-                        <Modal.Title>  הפנייה חדשה לדנטלפורם</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <Form>
-                            <Form.Group as={Col} controlId="formHorizontalEmail">
-                                <Form.Label column sm={2}>
-                                    שם
-                                </Form.Label>
-                                <Col sm={10}>
-                                    <Form.Control ref={this.fnameInput} type="text" placeholder="השם הפרטי של המטופל" />
-                                </Col>
-                            </Form.Group>
 
-                            <Form.Group as={Col} controlId="formHorizontalPassword">
-                                <Form.Label column sm={2}>
-                                    שם משפחה
-                                </Form.Label>
-                                <Col sm={10}>
-                                    <Form.Control ref={this.lnameInput} type="text" placeholder="שם המשפחה של המטופל" />
-                                </Col>
-                            </Form.Group>
-
-                        </Form>
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="secondary" onClick={this.closeModal}>
-                            Close
-                        </Button>
-                        <Button variant="primary" onClick={this.createPatiantForm}>
-                            צור טופס חדש
-                            </Button>
-                    </Modal.Footer>
-                </Modal>
+                <MultiStep showNavigation={true} steps={steps} />
 
             </div>
+
+
+            </div >
         );
     }
 }
