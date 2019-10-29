@@ -1,3 +1,40 @@
-/* .modal-90w{
-    size: 90%
-} */
+.showStep{
+    display: block;
+    }
+    
+    .hideStep{
+    display: none;
+    }
+    
+    #inline-checkbox-1,#inline-checkbox-2,#inline-checkbox-3,#inline-checkbox-4,#inline-checkbox-5,#inline-checkbox-6,#inline-checkbox-7{
+    margin-right: 300px; ;
+    }
+
+    .bgcolor{
+        /* background-color: lightgray; */
+        height: 400px;
+    }
+    /* .basicFormStructure{
+        height: 400px;
+
+    } */
+    .alignTeathNum{
+        display: flex;
+        flex-direction: column;
+        margin:5px;
+    }
+    .displayFlex{
+        display: flex;
+
+    }
+
+    .allTeathSelection{
+        display: flex;
+        justify-content: space-evenly;;
+    }
+    .buttonwidth{
+        display: inline;
+        width:100px;
+        margin-left: 5px;
+        margin-bottom: 0px;
+    }

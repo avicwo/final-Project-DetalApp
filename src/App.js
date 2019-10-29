@@ -6,6 +6,7 @@ import MdPage from './pages/mdPage/mdPage';
 import AdminPage from './pages/adminPage/adminPage';
 import Login from './pages/login/Login';
 import { Parse } from 'parse';
+import MdFormPage from './pages/mdFormPage/mdFormPage'
 
 //need to logout from parse as well
 
@@ -14,16 +15,16 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeUser: null,
+      // activeUser: null,
 
-      // activeUser: {
-      //   "id": 1,
-      //   "fname": "אבי",
-      //   "lname": "כהן",
-      //   "email": "avi@avi.com",
-      //   "pwd": "qqq",
-      //   "isAdmin": true
-      // },
+      activeUser: {
+        "id": 1,
+        "fname": "aaa",
+        "lname": "aaa",
+        "email": "aaa@aaa.com",
+        "pwd": "qqq",
+        "isAdmin": false
+      },
     }
 
     this.handleLogout = this.handleLogout.bind(this);
@@ -44,12 +45,12 @@ class App extends React.Component {
     this.setState({ activeUser });
     Parse.LiveQuery.close();
 
-  }  
- 
+  }
+
   render() {
     const { activeUser } = this.state;
 
-    return (  
+    return (
       <Switch>
         <Route exact path="/">
           {/* here a potential user can:
@@ -59,6 +60,11 @@ class App extends React.Component {
            */}
           <LandingPage activeUser={activeUser} handleLogout={this.handleLogout} />
         </Route>
+
+        <Route path="/mdFormPage">
+          <MdFormPage activeUser={activeUser} handleLogout={this.handleLogout} />
+        </Route>
+
         <Route path="/mdPage">
           {/* here a user can:
           1. review the list of forms he sent
@@ -97,15 +103,15 @@ class App extends React.Component {
 
 export default App;
 
-// open issuses
-//  1. fix the leads creation - it do create in the DB but when removing the submit it is not rebuit
-//  2. fix thestructure of the md page - the headers shouldnt return
-//  3. fix the ts error i have
-//  4. how to alow only admin user to login my admin page - used conditinal render on the active user props, is this the way?
-//  5. create unique formid - object id=id
-//  6. Add confirmation massege on the leads - add validation on email
-//  7. the form should be component
-//  8. active the project in   github pages
-//  9. how to access ctType 
-//  10. add email after lead generation
+    // open issuses
+    //  1. fix the leads creation - it do create in the DB but when removing the submit it is not rebuit
+    //  2. fix thestructure of the md page - the headers shouldnt return
+    //  3. fix the ts error i have
+    //  4. how to alow only admin user to login my admin page - used conditinal render on the active user props, is this the way?
+    //  5. create unique formid - object id=id
+    //  6. Add confirmation massege on the leads - add validation on email
+    //  7. the form should be component
+    //  8. active the project in   github pages
+    //  9. how to access ctType 
+    //  10. add email after lead generation
 //  https://www.w3schools.com/howto/howto_js_form_steps.asp

@@ -22,6 +22,7 @@ class Login extends React.Component {
         }
         this.emailInput = React.createRef();
         this.pwdInput = React.createRef();
+        
         this.login = this.login.bind(this);
         this.handleKeyPress = this.handleKeyPress.bind(this)
     }

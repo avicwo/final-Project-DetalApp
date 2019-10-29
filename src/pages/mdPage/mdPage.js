@@ -5,7 +5,6 @@ import MyNavbar from '../../components/myNavbar';
 import Parse from 'parse';
 import { Forms } from '../../data-model/Forms';
 import './mdPage.css';
-import PatiantForm from '../../components/patiantForm'
 
 class MdPage extends React.Component {
 
@@ -25,10 +24,6 @@ class MdPage extends React.Component {
 
         this.logout = this.logout.bind(this);
         this.redirectTomdFormPage = this.redirectTomdFormPage.bind(this);
-        this.createFormId = this.createFormId.bind(this);
-
-        // this.filterInput = this.filterInput.bind(this)
-
 
     }
 
@@ -56,25 +51,25 @@ class MdPage extends React.Component {
     }
 
 
-    createFormId(){
+    // createFormId(){
 
 
-            const PatiantFormRow = Parse.Object.extend('Forms');
-            const newPatiantForm = new PatiantFormRow();
+    //         const PatiantFormRow = Parse.Object.extend('Forms');
+    //         const newPatiantForm = new PatiantFormRow();
     
-            newPatiantForm.set('userId', Parse.User.current());
-            newPatiantForm.save().then(result => {
-                console.log('form created', result);
+    //         newPatiantForm.set('userId', Parse.User.current());
+    //         newPatiantForm.save().then(result => {
+    //             console.log('form created', result);
     
-                const form = new PatiantForm(result);
-                const forms = this.state.mdForms.concat(form);
-                this.setState({ formId });
-            },
-                (error) => {
-                    console.error('Error while creating Recipe: ', error);
-                }
-            );
-        }
+    //             const form = new PatiantForm(result);
+    //             const forms = this.state.mdForms.concat(form);
+    //             this.setState({ forms });
+    //         },
+    //             (error) => {
+    //                 console.error('Error while creating Recipe: ', error);
+    //             }
+    //         );
+    //     }
 
     // createPatiantForm(lnameValue, fnameValue) {
 
@@ -157,6 +152,7 @@ class MdPage extends React.Component {
         if (redirectTomdFormPage && activeUser) {
             return <Redirect to="/mdFormPage" />
         }
+
         // props.match.param.id
         if (activeUser.isAdmin) {
 
@@ -230,7 +226,7 @@ class MdPage extends React.Component {
                 </InputGroup>
 
                 <Accordion defaultActiveKey="0">
-                    <Button variant="primary" onClick={this.redirectTomdFormPage,this.createFormId}>טופס חדש</Button>
+                    <Button variant="primary" onClick={this.redirectTomdFormPage}>טופס חדש</Button>
 
                     {mdCardsForms}
                 </Accordion>
