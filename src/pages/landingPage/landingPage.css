@@ -8,10 +8,11 @@
 
 }
 
-.text-header small{
-    margin-top:none
-}
+.text-center{
+display: flex;
+flex-direction: column;
 
+}
 
 .landingpage-card1{
     background-color: rgb(78, 205, 237);

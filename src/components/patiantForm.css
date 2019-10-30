@@ -27,6 +27,12 @@
         display: flex;
 
     }
+    .text-center{
+        display: flex;
+        flex-direction: column;
+        
+        }
+        
 
     .allTeathSelection{
         display: flex;

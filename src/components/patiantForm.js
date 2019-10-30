@@ -2,6 +2,7 @@ import React from 'react'
 import { Forms } from '../data-model/Forms';
 import './patiantForm.css'
 import Parse from 'parse'
+import emailsuccess from '../images/emailsuccess.png'
 import { Redirect } from 'react-router-dom'
 import { Image, Button, Modal, Form, FormControl, InputGroup, Table, Card, Accordion } from 'react-bootstrap';
 
@@ -23,7 +24,7 @@ class PatiantForm extends React.Component {
         this.toggleAllTeath = this.toggleAllTeath.bind(this)
         this.createForm = this.createForm.bind(this)
         this.closeModal = this.closeModal.bind(this)
-        this.openModal=this.openModal.bind(this)
+        this.openModal = this.openModal.bind(this)
 
         this.allTeath = React.createRef();
         this.t28 = React.createRef();
@@ -557,15 +558,13 @@ class PatiantForm extends React.Component {
                         שלח טופס
                     </Button>
                 </div>
+                
                 <Modal show={this.state.showModal} onHide={this.closeModal} size="md">
-                    <Modal.Header closeButton>
-                        <Modal.Title></Modal.Title>
-                    </Modal.Header>
+
                     <Modal.Body className="text-center">
                         <h3>
-                            רופא חדש נוצר!!!
-                        </h3>
-                        <Image src="" rounded />
+                            טופס חדש נוצר, המטופל ודנטלפורם קיבלו העתק למייל!                        </h3>
+                            <Image src={emailsuccess} rounded />
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={this.closeModal}>

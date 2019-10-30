@@ -256,9 +256,7 @@ class LandingPage extends React.Component {
 
 
                 <Modal show={this.state.showModal} onHide={this.closeModal} size="lg">
-                    <Modal.Header closeButton>
-                        <Modal.Title></Modal.Title>
-                    </Modal.Header>
+                
                     <Modal.Body className="text-center">
                         <h3>
                             תודה שפנית אלינו, ניצור עימך קשר בהקדם!!!
