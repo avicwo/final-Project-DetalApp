@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Col, Button, Modal, Form, FormControl, InputGroup, Table, Card, Accordion } from 'react-bootstrap';
+import { Row, Col, Button, FormControl, InputGroup, Table, Card, Accordion } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
 import MyNavbar from '../../components/myNavbar';
 import Parse from 'parse';
@@ -17,7 +17,7 @@ class MdPage extends React.Component {
 
             // filteredFormsList:[],
             mdForms: [],
-            formId:[],
+            formId: [],
             redirectTomdFormPage: false
 
         }
@@ -38,10 +38,8 @@ class MdPage extends React.Component {
             // query.equalTo("isAdmin", false);
             query.find().then((results) => {
                 mdForms = results.map(result => new Forms(result));
-                // filteredFormsList = results.map(result => new Form(result));
                 console.log('md found', mdForms[0].mobile);
                 console.log('md found', this.props.activeUser);
-
                 this.setState({ mdForms });
             }, (error) => {
                 console.error('Error while fetching doctor details', error);
@@ -56,11 +54,11 @@ class MdPage extends React.Component {
 
     //         const PatiantFormRow = Parse.Object.extend('Forms');
     //         const newPatiantForm = new PatiantFormRow();
-    
+
     //         newPatiantForm.set('userId', Parse.User.current());
     //         newPatiantForm.save().then(result => {
     //             console.log('form created', result);
-    
+
     //             const form = new PatiantForm(result);
     //             const forms = this.state.mdForms.concat(form);
     //             this.setState({ forms });
@@ -156,9 +154,9 @@ class MdPage extends React.Component {
         // props.match.param.id
         if (activeUser.isAdmin) {
 
-            var admin = <p>היי {activeUser.fname}, מה תרצה לעשות היום? זה יוזר אדמין דף רופאים </p>
+            var admin = <h5 className="container">היי {activeUser.fname}, מה תרצה לעשות היום?      </h5>
         } else if (!activeUser.isAdmin) {
-            var notAdmin = <p>היי {activeUser.fname}, מה תרצה לעשות היום? זה לא יוזר אדמין דף רופאים</p>
+            var notAdmin = <h5 className="container">היי {activeUser.fname}, מה תרצה לעשות היום? </h5>
         }
 
         var mdCardsForms = mdForms.map(md => <Card>
@@ -208,36 +206,36 @@ class MdPage extends React.Component {
         )
 
         return (
-            <div>
+            <div >
 
                 <MyNavbar activeUser={activeUser} handleLogout={handleLogout} />
                 {notAdmin}
                 {admin}
 
+                <div className="container">
+                    <InputGroup className="mb-3 ">
+                        <FormControl
+                            // onChange={this.filterInput}
+                            placeholder=" חפש מטופל כאן לפי שם פרטי, שם משפחה , מספר נייד או מספר טופס..."
+                            // aria-label="Recipient's username"
+                            aria-describedby="basic-addon2"
+                        />
 
-                <InputGroup className="mb-3">
-                    <FormControl
-                        // onChange={this.filterInput}
-                        placeholder=" חפש מטופל כאן לפי שם פרטי, שם משפחה , מספר נייד או מספר טופס..."
-                        // aria-label="Recipient's username"
-                        aria-describedby="basic-addon2"
-                    />
+                    </InputGroup>
 
-                </InputGroup>
+                    <Accordion defaultActiveKey="0">
+                        <Button className="mb-1" variant="primary" onClick={this.redirectTomdFormPage}>טופס חדש</Button>
 
-                <Accordion defaultActiveKey="0">
-                    <Button variant="primary" onClick={this.redirectTomdFormPage}>טופס חדש</Button>
+                        {mdCardsForms}
+                    </Accordion>
 
-                    {mdCardsForms}
-                </Accordion>
-
-
-
-
-            </div>
-        );
-    }
-}
+                    </div>
 
 
-export default MdPage;
+                </div>
+                );
+            }
+        }
+        
+        
+        export default MdPage;

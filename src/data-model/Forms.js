@@ -16,10 +16,10 @@ export class Forms {
         this.ortho_diagnostic_setup = parseForms.get("ortho_diagnostic_setup");
         this.orth_facial_type = parseForms.get("orth_facial_type");
 
-        this.periafical_ct_upper_Left = parseForms.get("periafical_ct_upper_Left");
-        this.periafical_ct_upper_Right = parseForms.get("periafical_ct_upper_Right");
-        this.periafical_ct_lower_Left = parseForms.get("periafical_ct_lower_Left");
-        this.periafical_ct_lower_Right = parseForms.get("periafical_ct_lower_Right");
+        // this.periafical_ct_upper_Left = parseForms.get("periafical_ct_upper_Left");
+        // this.periafical_ct_upper_Right = parseForms.get("periafical_ct_upper_Right");
+        // this.periafical_ct_lower_Left = parseForms.get("periafical_ct_lower_Left");
+        // this.periafical_ct_lower_Right = parseForms.get("periafical_ct_lower_Right");
 
 
 

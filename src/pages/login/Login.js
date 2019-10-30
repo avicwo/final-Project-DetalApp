@@ -89,8 +89,8 @@ class Login extends React.Component {
                             <Form.Label>סיסמא   </Form.Label>
                             <Form.Control ref={this.pwdInput} type="password" placeholder="Password" onKeyPress={this.handleKeyPress} />
                         </Form.Group>
-                        <Button variant="success" type="button" block onClick={this.login} onKeyPress={this.handleKeyPress}>
-                            Login
+                        <Button className="loginbtn" variant="success" type="button" block onClick={this.login} onKeyPress={this.handleKeyPress}>
+                            הכנס
                     </Button>
                     </Form>
 

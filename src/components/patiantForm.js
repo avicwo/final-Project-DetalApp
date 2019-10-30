@@ -1,7 +1,9 @@
 import React from 'react'
+import { Forms } from '../data-model/Forms';
 import './patiantForm.css'
+import Parse from 'parse'
 import { Redirect } from 'react-router-dom'
-import { Row, Col, Button, Modal, Form, FormControl, InputGroup, Table, Card, Accordion } from 'react-bootstrap';
+import { Image, Button, Modal, Form, FormControl, InputGroup, Table, Card, Accordion } from 'react-bootstrap';
 
 
 class PatiantForm extends React.Component {
@@ -11,14 +13,17 @@ class PatiantForm extends React.Component {
             redirectToHome: false,
             moveStepUp: 0,
             moveStepDown: 0,
-            currentStep: 1
+            currentStep: 1,
+            formDetails: {},
+            showModal: false
 
         }
         this.moveStepUp = this.moveStepUp.bind(this);
         this.moveStepDown = this.moveStepDown.bind(this);
         this.toggleAllTeath = this.toggleAllTeath.bind(this)
         this.createForm = this.createForm.bind(this)
-        this.createForm = this.createForm.bind(this)
+        this.closeModal = this.closeModal.bind(this)
+        this.openModal=this.openModal.bind(this)
 
         this.allTeath = React.createRef();
         this.t28 = React.createRef();
@@ -55,12 +60,114 @@ class PatiantForm extends React.Component {
         this.t46 = React.createRef();
         this.t47 = React.createRef();
         this.t48 = React.createRef();
+        this.fname = React.createRef();
+        this.lname = React.createRef();
+        this.mobile = React.createRef();
+        this.email = React.createRef();
+        this.ctType_isPanoramic = React.createRef();
+        this.ctType_isStatus = React.createRef();
+        this.ctType_isStatusParallel = React.createRef();
+        this.ortho_cephalometric_side = React.createRef();
+        this.ortho_computerized_tomography = React.createRef();
+        this.ortho_diagnostic_setup = React.createRef();
+        this.orth_facial_type = React.createRef();
+        this.ct_implant = React.createRef();
+        this.ct_trap_tooth = React.createRef();
+        this.ct_endo = React.createRef();
+        this.ct_other = React.createRef();
     }
 
+    closeModal() {
+        this.setState({ showModal: false })
+    }
+    async openModal() {
+        this.setState({ showModal: true })
+    }
 
     createForm() {
+        const formDetailst = {
+            fname: this.fname.current.value,
+            lname: this.lname.current.value,
+            mobile: this.mobile.current.value,
+            email: this.email.current.value,
+            ctType_isPanoramic: this.ctType_isPanoramic.current.checked,
+            ctType_isStatus: this.ctType_isStatus.current.checked,
+            ctType_isStatusParallel: this.ctType_isStatusParallel.current.checked,
+            ortho_cephalometric_side: this.ortho_cephalometric_side.current.checked,
+            ortho_computerized_tomography: this.ortho_computerized_tomography.current.checked,
+            ortho_diagnostic_setup: this.ortho_diagnostic_setup.current.checked,
+            orth_facial_type: this.orth_facial_type.current.checked,
+            ct_implant: this.ct_implant.current.checked,
+            ct_trap_tooth: this.ct_trap_tooth.current.checked,
+            ct_endo: this.ct_endo.current.checked,
+            ct_other: this.ct_other.current.value,
+            allTeath: this.allTeath.current.checked,
+            t28: this.t28.current.checked,
+            t27: this.t27.current.checked,
+            t26: this.t26.current.checked,
+            t25: this.t25.current.checked,
+            t24: this.t24.current.checked,
+            t23: this.t23.current.checked,
+            t22: this.t22.current.checked,
+            t21: this.t21.current.checked,
+            t38: this.t38.current.checked,
+            t37: this.t37.current.checked,
+            t36: this.t36.current.checked,
+            t35: this.t35.current.checked,
+            t34: this.t34.current.checked,
+            t33: this.t33.current.checked,
+            t32: this.t32.current.checked,
+            t31: this.t31.current.checked,
+            t11: this.t11.current.checked,
+            t12: this.t12.current.checked,
+            t13: this.t13.current.checked,
+            t14: this.t14.current.checked,
+            t15: this.t15.current.checked,
+            t16: this.t16.current.checked,
+            t17: this.t17.current.checked,
+            t18: this.t18.current.checked,
+            t41: this.t41.current.checked,
+            t42: this.t42.current.checked,
+            t43: this.t43.current.checked,
+            t44: this.t44.current.checked,
+            t45: this.t45.current.checked,
+            t46: this.t46.current.checked,
+            t47: this.t47.current.checked,
+            t48: this.t48.current.checked
 
-        console.log("test")
+        }
+        const FormTable = Parse.Object.extend('Forms');
+        const newPatiantForm = new FormTable();
+
+        newPatiantForm.set('userId', Parse.User.current());
+        newPatiantForm.set('fname', this.fname.current.value);
+        newPatiantForm.set('lname', this.lname.current.value);
+        newPatiantForm.set('email', this.email.current.value);
+
+        newPatiantForm.set('ctType_isPanoramic', this.ctType_isPanoramic.current.checked);
+        newPatiantForm.set('ctType_isStatus', this.ctType_isStatus.current.checked);
+        newPatiantForm.set('ctType_isStatusParallel', this.ctType_isStatusParallel.current.checked);
+
+        newPatiantForm.set('ortho_cephalometric_side', this.ortho_cephalometric_side.current.checked);
+        newPatiantForm.set('ortho_computerized_tomography', this.ortho_computerized_tomography.current.checked);
+        newPatiantForm.set('ortho_diagnostic_setup', this.ortho_diagnostic_setup.current.checked);
+        newPatiantForm.set('orth_facial_type', this.orth_facial_type.current.checked);
+
+        newPatiantForm.save().then(result => {
+
+            var forms = new Forms(result);
+            console.log(forms)
+            // this.setState({recipes});
+            this.openModal()
+
+        },
+            (error) => {
+                // if (typeof document !== 'undefined') document.write(`Error while creating Recipe: ${JSON.stringify(error)}`);
+                console.error('Error while creating Referral: ', error);
+            })
+        this.setState({ formDetailst: formDetailst })
+
+
     }
 
     toggleAllTeath() {
@@ -165,7 +272,7 @@ class PatiantForm extends React.Component {
         const { currentStep } = this.state;
 
         var step1, step2, step3, step4, nextBtn, previosBtn, createFormBtn, sendFormBtn
-        if (currentStep == 1) {
+        if (currentStep === 1) {
             step1 = "showStep bgcolor"
             step2 = "hideStep bgcolor"
             step3 = "hideStep bgcolor"
@@ -176,7 +283,7 @@ class PatiantForm extends React.Component {
             sendFormBtn = "hideStep"
 
 
-        } else if (currentStep == 2) {
+        } else if (currentStep === 2) {
             step1 = "hideStep bgcolor"
             step2 = "showStep bgcolor"
             step3 = "hideStep bgcolor"
@@ -187,7 +294,7 @@ class PatiantForm extends React.Component {
             sendFormBtn = "hideStep"
 
 
-        } else if (currentStep == 3) {
+        } else if (currentStep === 3) {
             step1 = "hideStep bgcolor"
             step2 = "hideStep bgcolor"
             step3 = "showStep bgcolor"
@@ -197,7 +304,7 @@ class PatiantForm extends React.Component {
             createFormBtn = "showStep buttonwidth"
             sendFormBtn = "hideStep"
         }
-        else if (currentStep == 4) {
+        else if (currentStep === 4) {
             step1 = "hideStep bgcolor"
             step2 = "hideStep bgcolor"
             step3 = "hideStep bgcolor"
@@ -221,11 +328,10 @@ class PatiantForm extends React.Component {
             <div className="container">
 
                 <div className={step1}>
-                    <h3>פרטי המטופל</h3>
+                    <h4>פרטי המטופל</h4>
                     <div>
 
                         <Form className="basicFormStructure">
-
                             <Form.Group controlId="formBasic">
                                 <Form.Label>שם פרטי </Form.Label>
                                 <Form.Control ref={this.fname} type="text" placeholtextder=" שם פרטי" />
@@ -249,7 +355,7 @@ class PatiantForm extends React.Component {
                 </div>
 
                 <div className={step2}>
-                    <h3>  סוגי צילומי שיניים</h3>
+                    <h4>  סוגי צילומי שיניים</h4>
                     <div>
                         <Form className="basicFormStructure">
                             <div key={`inline-checkbox`} className="mb-3 ctTypestep2">
@@ -262,7 +368,7 @@ class PatiantForm extends React.Component {
                             </div>
                             <div>
 
-                                <h3>    צילומי אורתודנטריה</h3>
+                                <h4>    צילומי אורתודנטריה</h4>
                                 <div>
                                     <Form.Check ref={this.ortho_cephalometric_side} label=" צפלומטרי צדדי" type="checkbox" id={`inline-checkbox-1`} />
                                     <Form.Check ref={this.ortho_computerized_tomography} label="שרטוט ואנליזה ממוחשבת" type="checkbox" id={`inline-checkbox-2`} />
@@ -277,7 +383,7 @@ class PatiantForm extends React.Component {
 
 
                 <div className={step3}>
-                    <h3>פרפיקלי </h3>
+                    <h4>פרפיקלי </h4>
                     <div className="">
                         <input ref={this.allTeath} onChange={this.toggleAllTeath} type="checkbox"></input>
                         <lable>בחר את כל השיניים</lable>
@@ -451,9 +557,29 @@ class PatiantForm extends React.Component {
                         שלח טופס
                     </Button>
                 </div>
+                <Modal show={this.state.showModal} onHide={this.closeModal} size="md">
+                    <Modal.Header closeButton>
+                        <Modal.Title></Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body className="text-center">
+                        <h3>
+                            רופא חדש נוצר!!!
+                        </h3>
+                        <Image src="" rounded />
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={this.closeModal}>
+                            סגור
+                        </Button>
+
+                    </Modal.Footer>
+                </Modal>
+
+
+
                 {/* 
                 <div className={step4}>
-                    <h3> 2פרטי המטופל</h3>
+                    <h4> 2פרטי המטופל</h4>
                     <Form.Group controlId="formBasic">
                         <Form.Label>שם פרטי </Form.Label>
                         <Form.Control type="text" placeholtextder=" שם פרטי" />

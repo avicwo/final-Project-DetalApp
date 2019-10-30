@@ -3,9 +3,15 @@
     width:200px;
 }
 
-#landingPage-main-container{
+#landingPage-container-1{
     background-image: url(../../images/landingpage1.jpg);
+
 }
+
+.text-header small{
+    margin-top:none
+}
+
 
 .landingpage-card1{
     background-color: rgb(78, 205, 237);

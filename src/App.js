@@ -15,16 +15,16 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      // activeUser: null,
+      activeUser: null,
 
-      activeUser: {
-        "id": 1,
-        "fname": "aaa",
-        "lname": "aaa",
-        "email": "aaa@aaa.com",
-        "pwd": "qqq",
-        "isAdmin": false
-      },
+      // activeUser: {
+      //   "id": 1,
+      //   "fname": "aaa",
+      //   "lname": "aaa",
+      //   "email": "aaa@aaa.com",
+      //   "pwd": "qqq",
+      //   "isAdmin": false
+      // },
     }
 
     this.handleLogout = this.handleLogout.bind(this);
@@ -104,14 +104,9 @@ class App extends React.Component {
 export default App;
 
     // open issuses
-    //  1. fix the leads creation - it do create in the DB but when removing the submit it is not rebuit
     //  2. fix thestructure of the md page - the headers shouldnt return
-    //  3. fix the ts error i have
     //  4. how to alow only admin user to login my admin page - used conditinal render on the active user props, is this the way?
-    //  5. create unique formid - object id=id
     //  6. Add confirmation massege on the leads - add validation on email
-    //  7. the form should be component
-    //  8. active the project in   github pages
-    //  9. how to access ctType 
     //  10. add email after lead generation
-//  https://www.w3schools.com/howto/howto_js_form_steps.asp
+    //  11. need to create summary from and from it update the DB
+    //  12. cancel the gap in the landing page etween the bg img to the nav

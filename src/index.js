@@ -4,9 +4,13 @@ import { HashRouter } from 'react-router-dom'
 import Parse from 'parse'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './index.css';
+import emailjs from 'emailjs-com'
 
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+
+// Initializing emailjs
+emailjs.init("user_1XuVSYter6s3E4VBpb2Io");
 
 Parse.serverURL = 'https://parseapi.back4app.com'; // This is your Server URL
 Parse.initialize(

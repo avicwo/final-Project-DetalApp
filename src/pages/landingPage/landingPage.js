@@ -1,14 +1,17 @@
 import React from 'react';
 import './landingPage.css';
-import { Carousel, CardDeck, Card, CardGroup, Form, Button } from 'react-bootstrap';
+import { Modal, Image, Carousel, CardDeck, Card, CardGroup, Form, Button } from 'react-bootstrap';
 import capturecard1 from '../../images/icon1-eye.png';
 import capturecard2 from '../../images/capture2.PNG';
 import capturecarossel1 from '../../images/landingpage-carossel1.jpg';
 import capturecarossel2 from '../../images/landingpage-carossel2.jpg';
 import capturecarossel3 from '../../images/landingpage-carossel3.jpg';
+import emailsuccess from '../../images/emailsuccess.png';
+
 import MyNavbar from '../../components/myNavbar';
 import Parse from 'parse';
 import Leads from '../../data-model/Leads';
+import emailjs from 'emailjs-com'
 
 
 class LandingPage extends React.Component {
@@ -17,9 +20,10 @@ class LandingPage extends React.Component {
         super(props);
         this.state = {
             newreferral: [],
-            newMdLead: {}
+            showModal: false
         }
         this.createLead = this.createLead.bind(this)
+        this.closeModal = this.closeModal.bind(this)
         // this.preventDefault=this.preventDefault.bind(this)
 
         this.lnameInput = React.createRef();
@@ -27,7 +31,13 @@ class LandingPage extends React.Component {
         this.emailInput = React.createRef();
     }
 
+    closeModal() {
+        this.setState({ showModal: false })
+    }
+
     createLead() {
+        const { activeUser } = this.props;
+
 
         const LeadsRow = Parse.Object.extend('Leads');
         const newMdLead = new LeadsRow();
@@ -48,6 +58,30 @@ class LandingPage extends React.Component {
                 // if (typeof document !== 'undefined') document.write(`Error while creating Recipe: ${JSON.stringify(error)}`);
                 console.error('Error while creating Referral: ', error);
             })
+
+        // send email...
+
+
+        var template_params = {
+            "to_name": "יגאל",
+            "lead_fname": this.fnameInput.current.value,
+            "lead_lname": this.lnameInput.current.value,
+            "lead_email": this.emailInput.current.value
+        }
+
+        var service_id = "default_service";
+        var template_id = "template_Xhm9Xi0V";
+        emailjs.send(service_id, template_id, template_params).then(() => {
+            // console.log("email sent");
+            this.setState({ showModal: true })
+            // console.log(showModal);
+
+        });
+
+
+
+
+        // erasing the content after sending
         this.fnameInput.current.value = ""
         this.lnameInput.current.value = ""
         this.emailInput.current.value = ""
@@ -62,6 +96,7 @@ class LandingPage extends React.Component {
     render() {
 
 
+
         return (
             <div>
                 <div id="landingPage-main-container">
@@ -69,9 +104,9 @@ class LandingPage extends React.Component {
 
                     <div className="container" id="landingPage-container-1">
                         <div id="landingPage-leads-form">
-                            <Form id="form-container" className="container">
+                            <Form id="form-container margin-top-cancel" className="container">
 
-                                <Form.Text className="">
+                                <Form.Text className="text-header">
                                     <h2 id="landingpage-header">דנטלפורם - מערכת ניהול תורים </h2>
                                     מלא/י את פרטיך כאן וניצור עמך קשר בהקדם
                             </Form.Text>
@@ -220,19 +255,24 @@ class LandingPage extends React.Component {
                 </div>
 
 
-                {/* <Card.Footer>
+                <Modal show={this.state.showModal} onHide={this.closeModal} size="lg">
+                    <Modal.Header closeButton>
+                        <Modal.Title></Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body className="text-center">
+                        <h3>
+                            תודה שפנית אלינו, ניצור עימך קשר בהקדם!!!
+                        </h3>
+                        <Image src={emailsuccess} rounded />
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={this.closeModal}>
+                            סגור
+                        </Button>
 
-                    <div class="footer-copyright text-center py-3"> 2018 Copyright:
-                        <a href="/"> panolight.co.il</a> <br />
+                    </Modal.Footer>
+                </Modal>
 
-                        <a href="https://www.facebook.com/pg/%D7%A4%D7%A0%D7%95%D7%9C%D7%99%D7%99%D7%98-%D7%9E%D7%9B%D7%95%D7%9F-%D7%A1%D7%99%D7%98%D7%99-%D7%95%D7%A6%D7%99%D7%9C%D7%95%D7%9E%D7%99-%D7%A9%D7%99%D7%A0%D7%99%D7%99%D7%9D-126083527415409/posts/?ref=page_internal">
-                        ©Facebook
-                        </a>
-                        {/* Comment  adding an FB icon */}
-        {/* </div> */ }
-        {/* </Card.Footer> */ }
-
-        {/* <a href="https://www.freepik.com/free-photos-vectors/logo">Logo vector created by freepik - www.freepik.com</a> */ }
             </div >
 
         );
