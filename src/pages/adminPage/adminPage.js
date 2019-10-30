@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormControl, InputGroup, Table, Card, Accordion } from 'react-bootstrap';
+import {Form, Modal,Button, FormControl, InputGroup, Table, Card, Accordion } from 'react-bootstrap';
 import BootstrapSwitchButton from 'bootstrap-switch-button-react';
 import { Redirect } from 'react-router-dom';
 import MyNavbar from '../../components/myNavbar';
@@ -15,13 +15,62 @@ class AdminPage extends React.Component {
             isActiveDoctor: true,
             redirectToHome: false,
             mdList: [], //will contain all the md's
-            filteredMdList: []
+            filteredMdList: [],
+            showModal: false
         }
 
         this.logout = this.logout.bind(this);
         this.filterInput = this.filterInput.bind(this)
         this.toggleDoctorStatus = this.toggleDoctorStatus.bind(this)
+        this.createDoctor = this.createDoctor.bind(this)
+        this.openModal = this.openModal.bind(this)
+        this.closeModal = this.closeModal.bind(this)
+
+        this.fname = React.createRef();
+        this.lname = React.createRef();
+        this.mobile = React.createRef();
+        this.email = React.createRef();
     }
+
+    openModal() {
+        this.setState({ showModal: true })
+    }
+
+
+    closeModal() {
+        this.setState({ showModal: false })
+    }
+
+    createDoctor() {
+        const mdList = {
+            fname: this.fname.current.value,
+            lname: this.lname.current.value,
+            mobile: this.mobile.current.value,
+            email: this.email.current.value,
+        }
+
+        const DocTable = Parse.Object.extend('User');
+        const newDoctor = new DocTable();
+
+        newDoctor.set('userId', Parse.User.current());
+        newDoctor.set('fname', this.fname.current.value);
+        newDoctor.set('lname', this.lname.current.value);
+        newDoctor.set('email', this.email.current.value);
+        newDoctor.save().then(result => {
+            var doctors = new UserMd(result);
+            console.log(doctors)
+            this.openModal()
+
+        },
+            (error) => {
+                // if (typeof document !== 'undefined') document.write(`Error while creating Recipe: ${JSON.stringify(error)}`);
+                console.error('Error while creating Referral: ', error);
+            })
+        this.setState({ mdList: mdList })
+
+
+    }
+
 
     toggleDoctorStatus() {
         const isActiveDoctor = !this.state.isActiveDoctor
@@ -50,23 +99,21 @@ class AdminPage extends React.Component {
     }
 
     filterInput(e) {
-        var filteredMdList = this.state.filteredMdList
-        filteredMdList = []
-        // this.state.filteredMdList =
+
+        this.state.filteredMdList = [];
         var filterText = e.target.value;
         for (let i = 0; i < this.state.mdList.length; i++) {
             if (this.state.mdList[i].fname.toLowerCase().includes(filterText.toLowerCase())
                 || this.state.mdList[i].lname.toLowerCase().includes(filterText.toLowerCase())
                 || this.state.mdList[i].mobile.toLowerCase().includes(filterText.toLowerCase())
             ) {
-                filteredMdList.push(this.state.mdList[i])
+                this.state.filteredMdList.push(this.state.mdList[i])
             }
             //   else {
             //     this.state.mdList
             //   }
         }
         this.setState(this.state)
-        // console.log( this.state.filteredMdList)
 
     }
 
@@ -165,13 +212,57 @@ class AdminPage extends React.Component {
                         // aria-label="Recipient's username"
                         aria-describedby="basic-addon2"
                     />
-
+                    <Button className="createDoctorBtn" onClick={this.openModal} variant="primary" type="button">
+                        צור רופא חדש
+                    </Button>
                 </InputGroup>
 
                 <Accordion defaultActiveKey="0">
 
                     {mdCards}
                 </Accordion>
+
+                <Modal show={this.state.showModal} onHide={this.closeModal} size="lg">
+
+                    <Modal.Body className="text-center">
+                    <div className="">
+                    <h4>פרטי הרופא</h4>
+                    <div>
+
+                        <Form className="basicFormStructure">
+                            <Form.Group controlId="formBasic">
+                                <Form.Label>שם פרטי </Form.Label>
+                                <Form.Control ref={this.fname} type="text" placeholtextder=" שם פרטי" />
+                            </Form.Group>
+                            <Form.Group controlId="formBasic">
+                                <Form.Label>שם משפחה </Form.Label>
+                                <Form.Control ref={this.lname} type="text" placeholtextder=" שם משפחה" />
+                            </Form.Group>
+                            <Form.Group controlId="formBasic">
+                                <Form.Label>נייד </Form.Label>
+                                <Form.Control ref={this.mobile} type="text" placeholtextder=" נייד " />
+                            </Form.Group>
+                            <Form.Group controlId="formBasicEmail">
+                                <Form.Label>אימייל  </Form.Label>
+                                <Form.Control ref={this.email} type="email" placeholtextder=" אימייל" />
+                            </Form.Group>
+                        </Form>
+                    </div>
+
+
+                </div>
+                <Button className="" onClick={this.createDoctor} variant="primary" type="button">
+                        צור רופא
+                    </Button>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={this.closeModal}>
+                            סגור
+                        </Button>
+
+                    </Modal.Footer>
+
+                </Modal>
 
             </div>
         );

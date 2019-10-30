@@ -15,16 +15,17 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeUser: null,
+      // activeUser: null, 
 
-      // activeUser: {
-      //   "id": 1,
-      //   "fname": "aaa",
-      //   "lname": "aaa",
-      //   "email": "aaa@aaa.com",
-      //   "pwd": "qqq",
-      //   "isAdmin": false
-      // },
+      activeUser: {
+        "id": 1,
+        "fname": "aaa",
+        "lname": "aaa",
+        "email": "aaa@aaa.com",
+        "pwd": "qqq",
+        "isAdmin": true,
+        "isActiveDoctor":true
+      },
     }
 
     this.handleLogout = this.handleLogout.bind(this);

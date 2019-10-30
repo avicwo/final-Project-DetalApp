@@ -217,11 +217,11 @@ class MdPage extends React.Component {
                             // aria-label="Recipient's username"
                             aria-describedby="basic-addon2"
                         />
+                    <Button className="mb-1" variant="primary" onClick={this.redirectTomdFormPage}>טופס חדש</Button>
 
                     </InputGroup>
 
                     <Accordion defaultActiveKey="0">
-                        <Button className="mb-1" variant="primary" onClick={this.redirectTomdFormPage}>טופס חדש</Button>
 
                         {mdCardsForms}
                     </Accordion>

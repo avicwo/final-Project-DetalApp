@@ -81,7 +81,7 @@ class PatiantForm extends React.Component {
     closeModal() {
         this.setState({ showModal: false })
     }
-    async openModal() {
+    openModal() {
         this.setState({ showModal: true })
     }
 
