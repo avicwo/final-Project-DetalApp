@@ -110,3 +110,6 @@ export default App;
     //  10. add email after lead generation
     //  11. need to create summary from and from it update the DB
     //  12. cancel the gap in the landing page etween the bg img to the nav
+    //  13. since one user cant update another user i need to create another table of users, 
+    //      every log in req will check both tables, users and the new table, 
+    //      and if it fail i should redirect the user to another page 

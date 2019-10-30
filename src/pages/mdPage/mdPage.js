@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Col, Button, FormControl, InputGroup, Table, Card, Accordion } from 'react-bootstrap';
+import {  Button, FormControl, InputGroup, Table, Card, Accordion } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
 import MyNavbar from '../../components/myNavbar';
 import Parse from 'parse';
@@ -12,10 +12,7 @@ class MdPage extends React.Component {
         super(props);
         this.state = {
             redirectToHome: false,
-            mdForms: [], //will contain all the md's
             filteredmdForms: [],
-
-            // filteredFormsList:[],
             mdForms: [],
             formId: [],
             redirectTomdFormPage: false
@@ -37,9 +34,9 @@ class MdPage extends React.Component {
             query.equalTo("userId", Parse.User.current());
             // query.equalTo("isAdmin", false);
             query.find().then((results) => {
+                console.log(results)
                 mdForms = results.map(result => new Forms(result));
-                console.log('md found', mdForms[0].mobile);
-                console.log('md found', this.props.activeUser);
+                console.log('md found', mdForms[0]);
                 this.setState({ mdForms });
             }, (error) => {
                 console.error('Error while fetching doctor details', error);
@@ -115,7 +112,7 @@ class MdPage extends React.Component {
 
     logout() {
         this.props.handleLogout();
-        console.log(window.location.hash)
+        // console.log(window.location.hash)
 
         if (window.location.hash !== "/") {
             console.log(window.location.hash)

@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormControl, InputGroup, Button, Table, Card, Accordion } from 'react-bootstrap';
+import { FormControl, InputGroup, Table, Card, Accordion } from 'react-bootstrap';
 import BootstrapSwitchButton from 'bootstrap-switch-button-react';
 import { Redirect } from 'react-router-dom';
 import MyNavbar from '../../components/myNavbar';
@@ -7,12 +7,12 @@ import Parse from 'parse';
 import { UserMd } from '../../data-model/UserMd';
 import './adminPage.css';
 
-
 class AdminPage extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
+            isActiveDoctor: true,
             redirectToHome: false,
             mdList: [], //will contain all the md's
             filteredMdList: []
@@ -20,10 +20,16 @@ class AdminPage extends React.Component {
 
         this.logout = this.logout.bind(this);
         this.filterInput = this.filterInput.bind(this)
+        this.toggleDoctorStatus = this.toggleDoctorStatus.bind(this)
+    }
+
+    toggleDoctorStatus() {
+        const isActiveDoctor = !this.state.isActiveDoctor
+        this.setState({ isActiveDoctor: isActiveDoctor })
     }
 
     componentDidMount() {
-        var {mdList,filteredMdList    } = this.state;
+        var { mdList, filteredMdList } = this.state;
         // only if there is an active user we will make a call to the server
         if (this.props.activeUser) {
             // getting the active user recipes
@@ -44,15 +50,16 @@ class AdminPage extends React.Component {
     }
 
     filterInput(e) {
-        
-        this.state.filteredMdList = [];
+        var filteredMdList = this.state.filteredMdList
+        filteredMdList = []
+        // this.state.filteredMdList =
         var filterText = e.target.value;
         for (let i = 0; i < this.state.mdList.length; i++) {
             if (this.state.mdList[i].fname.toLowerCase().includes(filterText.toLowerCase())
-           || this.state.mdList[i].lname.toLowerCase().includes(filterText.toLowerCase())
-           || this.state.mdList[i].mobile.toLowerCase().includes(filterText.toLowerCase())
+                || this.state.mdList[i].lname.toLowerCase().includes(filterText.toLowerCase())
+                || this.state.mdList[i].mobile.toLowerCase().includes(filterText.toLowerCase())
             ) {
-                this.state.filteredMdList.push(this.state.mdList[i])
+                filteredMdList.push(this.state.mdList[i])
             }
             //   else {
             //     this.state.mdList
@@ -63,7 +70,6 @@ class AdminPage extends React.Component {
 
     }
 
-
     logout() {
         this.props.handleLogout();
         console.log(window.location.hash)
@@ -72,12 +78,12 @@ class AdminPage extends React.Component {
             console.log(window.location.hash)
             this.setState({ redirectToHome: true })
         }
-
     }
+
     // need to add modal to addint a new dental doctor
     render() {
         const { activeUser, handleLogout } = this.props;
-        const { redirectToHome,  filteredMdList } = this.state;
+        const { redirectToHome, filteredMdList } = this.state;
         // filteredMdList = mdList;
 
 
@@ -86,8 +92,7 @@ class AdminPage extends React.Component {
         }
         if (activeUser.isAdmin) {
             var admin = <p>היי {activeUser.fname}, מה תרצה לעשות היום? זה יוזר אדמין </p>
-        }
-        else {
+        } else {
             var notAdmin = <p>היי {activeUser.fname}, מה תרצה לעשות היום? זה לא יוזר אדמין</p>
         }
 
@@ -122,22 +127,19 @@ class AdminPage extends React.Component {
 
                             </tr>
                         </thead>
-                        <tbody className="remove-borders"> 
+                        <tbody className="remove-borders">
                             <tr>
                                 <td>{md.adress}</td>
                                 <td>{md.expertise}</td>
                                 <td>{md.email}</td>
                                 <td> <BootstrapSwitchButton
-                                checked={true}
-                                onlabel='On'
-                                offlabel='Off'
-                                onChange={(checked) => {
-                                    // debugger;
-                                    this.setState({ isAdminUser: checked })
-                                }}
-                            /></td>
+                                    checked={true}
+                                    onlabel='On'
+                                    offlabel='Off'
+                                    onChange={this.toggleDoctorStatus}
+                                /></td>
                             </tr>
-                           
+
                         </tbody>
                     </Table>
                 </Card.Body>

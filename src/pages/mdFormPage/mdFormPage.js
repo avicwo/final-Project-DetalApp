@@ -1,9 +1,9 @@
 import React from 'react';
-import { Row, Col, Button, Modal, Form, FormControl, InputGroup, Table, Card, Accordion } from 'react-bootstrap';
+// import { Row, Col, Button, Modal, Form, FormControl, InputGroup, Table, Card, Accordion } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
 import MyNavbar from '../../components/myNavbar';
-import Parse from 'parse';
-import { Forms } from '../../data-model/Forms';
+// import Parse from 'parse';
+// import { Forms } from '../../data-model/Forms';
 import PatiantForm from '../../components/patiantForm'
 
 class MdFormPage extends React.Component {
@@ -14,9 +14,6 @@ class MdFormPage extends React.Component {
             redirectToHome: false,
             mdForms: [], //will contain all the md'sformid
             filteredmdForms: [],
-
-            // filteredFormsList:[],
-            mdForms: [],
             forms:[],
             redirectTomdFormPage: false
 

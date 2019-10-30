@@ -3,7 +3,6 @@ import './Login.css';
 import { Alert, Nav, Navbar, Form, Button } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom'
 import Parse from 'parse';
-// import { User } from '../../data-model/user-md';
 //need to amend this part to take from the datamodel
 import { User } from './User-data-model';
 
@@ -15,51 +14,80 @@ class Login extends React.Component {
         super(props);
         this.state = {
             invalidLogin: false,
+            successDentalAndUserLogin: false,
+            deactivatedDentalDoctor: false,
+            successAdminUserLogin: false,
             successLogin: false,
+            // successUserTableLogin: false,
+            // successDentalUserLogin: false
+
             //  successLogin: true
 
 
         }
         this.emailInput = React.createRef();
         this.pwdInput = React.createRef();
-        
+
         this.login = this.login.bind(this);
-        this.handleKeyPress = this.handleKeyPress.bind(this)
+        // this.handleKeyPress = this.handleKeyPress.bind(this)
     }
 
-    handleKeyPress(e) {
-        if (e.key === "Enter") {
-            Parse.User.logIn(this.emailInput.current.value, this.pwdInput.current.value).then(user => {
-                this.props.handleLogin(new User(user));
-                this.setState({ successLogin: true });
-            }).catch(error => {
-                console.error('Error while logging in user', error);
-                this.setState({ invalidLogin: true });
-            })
-        };
-    }
+    // handleKeyPress(e) {
+    //     if (e.key === "Enter") {
+    //         Parse.User.logIn(this.emailInput.current.value, this.pwdInput.current.value).then(user => {
+    //             this.props.handleLogin(new User(user));
+    //             this.setState({ successLogin: true });
+    //         }).catch(error => {
+    //             console.error('Error while logging in user', error);
+    //             this.setState({ invalidLogin: true });
+    //         })
+    //     };
+    // }
+
+
 
     login() {
 
         Parse.User.logIn(this.emailInput.current.value, this.pwdInput.current.value).then(user => {
-            this.props.handleLogin(new User(user));
-            this.setState({ successLogin: true });
-        }).catch(error => {
-            console.error('Error while logging in user', error);
-            this.setState({ invalidLogin: true });
-        });
-        return
+            if (!user.attributes.isAdmin) {
+                const DentalDoctor = Parse.Object.extend('DentalDoctor');
+                const query = new Parse.Query(DentalDoctor);
+                query.equalTo("userID", Parse.User.current());
+                // query.equalTo("isActiveDoctor", true);
+                query.find().then((results) => {
+                    const myUser = results.map(result => new User(result));
+
+                    if (myUser[0].isActiveDoctor) {
+                        this.props.handleLogin(new User(user));
+                        this.setState({ successDentalAndUserLogin: true });
+
+                    } else if (myUser[0].isActiveDoctor === false) {
+                        // this.props.handleLogout();
+                        this.setState({ deactivatedDentalDoctor: true })
+                    }   
+                }
+                ).catch(error => {
+                    console.error('Error while logging in user', error);
+                    this.setState({ invalidLogin: true });
+                });
+            } else {
+                this.props.handleLogin(new User(user));
+                this.setState({ successAdminUserLogin: true })
+            }
+            return
+        })
     }
- 
+
 
     render() {
-        if (this.state.successLogin && this.props.activeUser.isAdmin===true) {
+
+        const { successDentalAndUserLogin, successAdminUserLogin } = this.state
+
+        if (successAdminUserLogin) {
             console.log(this.props.activeUser)
-
             return <Redirect to="/adminPage" />
-
-        } else if (this.state.successLogin && this.props.activeUser.isAdmin===false) {
-            return  <Redirect to="/MdPage" />
+        } else if (successDentalAndUserLogin) {
+            return <Redirect to="/MdPage" />
         }
 
         return (

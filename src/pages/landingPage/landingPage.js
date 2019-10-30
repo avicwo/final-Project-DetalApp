@@ -36,7 +36,7 @@ class LandingPage extends React.Component {
     }
 
     createLead() {
-        const { activeUser } = this.props;
+        // const { activeUser } = this.props;
 
 
         const LeadsRow = Parse.Object.extend('Leads');

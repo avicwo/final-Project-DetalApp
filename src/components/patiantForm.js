@@ -3,8 +3,8 @@ import { Forms } from '../data-model/Forms';
 import './patiantForm.css'
 import Parse from 'parse'
 import emailsuccess from '../images/emailsuccess.png'
-import { Redirect } from 'react-router-dom'
-import { Image, Button, Modal, Form, FormControl, InputGroup, Table, Card, Accordion } from 'react-bootstrap';
+// import { Redirect } from 'react-router-dom'
+import { Image, Button, Modal, Form } from 'react-bootstrap';
 
 
 class PatiantForm extends React.Component {
@@ -269,15 +269,15 @@ class PatiantForm extends React.Component {
 
 
     render() {
-        const { activeUser } = this.props;
+        // const { activeUser } = this.props;
         const { currentStep } = this.state;
 
-        var step1, step2, step3, step4, nextBtn, previosBtn, createFormBtn, sendFormBtn
+        var step1, step2, step3, nextBtn, previosBtn, createFormBtn, sendFormBtn
         if (currentStep === 1) {
             step1 = "showStep bgcolor"
             step2 = "hideStep bgcolor"
             step3 = "hideStep bgcolor"
-            step4 = "hideStep bgcolor"
+            // step4 = "hideStep bgcolor"
             nextBtn = "showStep buttonwidth"
             previosBtn = "hideStep "
             createFormBtn = "hideStep "
@@ -288,7 +288,7 @@ class PatiantForm extends React.Component {
             step1 = "hideStep bgcolor"
             step2 = "showStep bgcolor"
             step3 = "hideStep bgcolor"
-            step4 = "hideStep bgcolor"
+            // step4 = "hideStep bgcolor"
             nextBtn = "showStep buttonwidth"
             previosBtn = "showStep buttonwidth"
             createFormBtn = "hideStep "
@@ -299,7 +299,7 @@ class PatiantForm extends React.Component {
             step1 = "hideStep bgcolor"
             step2 = "hideStep bgcolor"
             step3 = "showStep bgcolor"
-            step4 = "hideStep bgcolor"
+            // step4 = "hideStep bgcolor"
             nextBtn = "hideStep "
             previosBtn = "showStep buttonwidth"
             createFormBtn = "showStep buttonwidth"
@@ -309,12 +309,12 @@ class PatiantForm extends React.Component {
             step1 = "hideStep bgcolor"
             step2 = "hideStep bgcolor"
             step3 = "hideStep bgcolor"
-            step4 = "showStep bgcolor"
+            // step4 = "showStep bgcolor"
         } else if (currentStep > 4) {
             step1 = "showStep bgcolor"
             step2 = "hideStep bgcolor"
             step3 = "hideStep bgcolor"
-            step4 = "hideStep bgcolor"
+            // step4 = "hideStep bgcolor"
         }
         // console.log(forms)
         // const { redirectToHome } = this.state;
@@ -572,6 +572,7 @@ class PatiantForm extends React.Component {
                         </Button>
 
                     </Modal.Footer>
+
                 </Modal>
 
 
