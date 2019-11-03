@@ -1,5 +1,5 @@
 import React from 'react';
-import {Form, Modal,Button, FormControl, InputGroup, Table, Card, Accordion } from 'react-bootstrap';
+import { Form, Modal, Button, FormControl, InputGroup, Table, Card, Accordion } from 'react-bootstrap';
 import BootstrapSwitchButton from 'bootstrap-switch-button-react';
 import { Redirect } from 'react-router-dom';
 import MyNavbar from '../../components/myNavbar';
@@ -14,7 +14,7 @@ class AdminPage extends React.Component {
         this.state = {
             isActiveDoctor: true,
             redirectToHome: false,
-            mdList: [], //will contain all the md's
+            mdList: [], 
             filteredMdList: [],
             showModal: false
         }
@@ -30,6 +30,8 @@ class AdminPage extends React.Component {
         this.lname = React.createRef();
         this.mobile = React.createRef();
         this.email = React.createRef();
+        this.adress = React.createRef();
+        this.expertise = React.createRef();
     }
 
     openModal() {
@@ -42,33 +44,34 @@ class AdminPage extends React.Component {
     }
 
     createDoctor() {
+
         const mdList = {
             fname: this.fname.current.value,
             lname: this.lname.current.value,
             mobile: this.mobile.current.value,
-            email: this.email.current.value,
+            adress: this.adress.current.value,
+            mobile: this.mobile.current.value,
+            expertise: this.expertise.current.value,
         }
+        const user = new Parse.User()
+        user.set('username', this.lname.current.value);
+        user.set('email', this.email.current.value);
+        user.set('lname', this.lname.current.value);
+        user.set('fname', this.fname.current.value);
+        user.set('adress', this.adress.current.value);
+        user.set('expertise', this.expertise.current.value);
+        user.set('mobile', this.mobile.current.value);
+        user.set('isActiveDoctor', true);
+        user.set('password', '#newpass');
 
-        const DocTable = Parse.Object.extend('User');
-        const newDoctor = new DocTable();
-
-        newDoctor.set('userId', Parse.User.current());
-        newDoctor.set('fname', this.fname.current.value);
-        newDoctor.set('lname', this.lname.current.value);
-        newDoctor.set('email', this.email.current.value);
-        newDoctor.save().then(result => {
-            var doctors = new UserMd(result);
-            console.log(doctors)
-            this.openModal()
-
-        },
-            (error) => {
-                // if (typeof document !== 'undefined') document.write(`Error while creating Recipe: ${JSON.stringify(error)}`);
-                console.error('Error while creating Referral: ', error);
-            })
+        user.signUp().then((user) => {
+            if (typeof document !== 'undefined') document.write(`User signed up: ${JSON.stringify(user)}`);
+            console.log('User signed up', user);
+        }).catch(error => {
+            if (typeof document !== 'undefined') document.write(`Error while signing up user: ${JSON.stringify(error)}`);
+            console.error('Error while signing up user', error);
+        }); 
         this.setState({ mdList: mdList })
-
-
     }
 
 
@@ -79,20 +82,18 @@ class AdminPage extends React.Component {
 
     componentDidMount() {
         var { mdList, filteredMdList } = this.state;
-        // only if there is an active user we will make a call to the server
+         mdList  =[];
+         filteredMdList=[];
         if (this.props.activeUser) {
-            // getting the active user recipes
             const MdTable = Parse.Object.extend('User');
             const query = new Parse.Query(MdTable);
-            query.equalTo("isAdmin", false);
+            // query.equalTo("isAdmin", false)             
             query.find().then((results) => {
                 mdList = results.map(result => new UserMd(result));
                 filteredMdList = results.map(result => new UserMd(result));
-                // console.log('md found', mdList);
-
                 this.setState({ mdList, filteredMdList });
+                console.log(filteredMdList)
             }, (error) => {
-                // if (typeof document !== 'undefined') document.write(`Error while fetching Recipe: ${JSON.stringify(error)}`);
                 console.error('Error while fetching doctor details', error);
             });
         }
@@ -157,7 +158,7 @@ class AdminPage extends React.Component {
                         <tr className="remove-borders">
                             <td>{md.fname + " " + md.lname}</td>
                             <td>{md.mobile}</td>
-                            <td>{md.forms.length}</td>
+                            {/* <td>{md.forms.length}</td> */}
                         </tr>
                     </tbody>
                 </Table>
@@ -212,7 +213,7 @@ class AdminPage extends React.Component {
                         // aria-label="Recipient's username"
                         aria-describedby="basic-addon2"
                     />
-                    <Button className="createDoctorBtn" onClick={this.openModal} variant="primary" type="button">
+                    <Button onClick={this.openModal} variant="primary" type="button">
                         צור רופא חדש
                     </Button>
                 </InputGroup>
@@ -225,34 +226,47 @@ class AdminPage extends React.Component {
                 <Modal show={this.state.showModal} onHide={this.closeModal} size="lg">
 
                     <Modal.Body className="text-center">
-                    <div className="">
-                    <h4>פרטי הרופא</h4>
-                    <div>
+                        <div className="">
+                            <h4>פרטי הרופא</h4>
+                            <div>
 
-                        <Form className="basicFormStructure">
-                            <Form.Group controlId="formBasic">
-                                <Form.Label>שם פרטי </Form.Label>
-                                <Form.Control ref={this.fname} type="text" placeholtextder=" שם פרטי" />
-                            </Form.Group>
-                            <Form.Group controlId="formBasic">
-                                <Form.Label>שם משפחה </Form.Label>
-                                <Form.Control ref={this.lname} type="text" placeholtextder=" שם משפחה" />
-                            </Form.Group>
-                            <Form.Group controlId="formBasic">
-                                <Form.Label>נייד </Form.Label>
-                                <Form.Control ref={this.mobile} type="text" placeholtextder=" נייד " />
-                            </Form.Group>
-                            <Form.Group controlId="formBasicEmail">
-                                <Form.Label>אימייל  </Form.Label>
-                                <Form.Control ref={this.email} type="email" placeholtextder=" אימייל" />
-                            </Form.Group>
-                        </Form>
-                    </div>
+                                <Form className="basicFormStructure">
+                                    <Form.Group controlId="formBasic">
+                                        <Form.Label>שם פרטי </Form.Label>
+                                        <Form.Control ref={this.fname} type="text" placeholtextder=" שם פרטי" />
+                                    </Form.Group>
+
+                                    <Form.Group controlId="formBasic">
+                                        <Form.Label>שם משפחה </Form.Label>
+                                        <Form.Control ref={this.lname} type="text" placeholtextder=" שם משפחה" />
+                                    </Form.Group>
+
+                                    <Form.Group controlId="formBasic">
+                                        <Form.Label>נייד </Form.Label>
+                                        <Form.Control ref={this.mobile} type="text" placeholtextder=" נייד " />
+                                    </Form.Group>
+
+                                    <Form.Group controlId="formBasicEmail">
+                                        <Form.Label>אימייל  </Form.Label>
+                                        <Form.Control ref={this.email} type="email" placeholtextder=" אימייל" />
+                                    </Form.Group>
+
+                                    <Form.Group controlId="">
+                                        <Form.Label>כתובת  </Form.Label>
+                                        <Form.Control ref={this.adress} type="text" placeholtextder=" כתובת" />
+                                    </Form.Group>
+
+                                    <Form.Group controlId="">
+                                        <Form.Label>מומחיות  </Form.Label>
+                                        <Form.Control ref={this.expertise} type="text" placeholtextder="מומחיות" />
+                                    </Form.Group>
+                                </Form>
+                            </div>
 
 
-                </div>
-                <Button className="" onClick={this.createDoctor} variant="primary" type="button">
-                        צור רופא
+                        </div>
+                        <Button className="" onClick={this.createDoctor} variant="primary" type="button">
+                            צור רופא
                     </Button>
                     </Modal.Body>
                     <Modal.Footer>
