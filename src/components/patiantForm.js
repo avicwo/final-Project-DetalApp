@@ -4,7 +4,7 @@ import './patiantForm.css'
 import Parse from 'parse'
 import emailsuccess from '../images/emailsuccess.png'
 // import { Redirect } from 'react-router-dom'
-import { Image, Button, Modal, Form } from 'react-bootstrap';
+import { Row, Col, Accordion, Image, Button, Modal, Card, Form } from 'react-bootstrap';
 
 
 class PatiantForm extends React.Component {
@@ -328,7 +328,123 @@ class PatiantForm extends React.Component {
         return (
             <div className="container">
 
-                <div className={step1}>
+                <h4>
+                    טופס מטופל
+                </h4>
+
+
+                <div className="patiantDetailsForm">
+
+                    <Accordion defaultActiveKey="0">
+                        <Card>
+                            <Accordion.Toggle as={Card.Header} eventKey="0">
+                                <span>+</span>
+
+                                פרטי מטופל
+                        </Accordion.Toggle>
+                            <Accordion.Collapse eventKey="0">
+                                <Card.Body>
+                                    <div className="patiantDetails">
+                                        <h4>פרטי המטופל</h4>
+                                        <div>
+
+                                            <Form className="basicFormStructure">
+                                                <Row>
+                                                    <Col>
+                                                        <Form.Group className=".d-inline" controlId="formBasic">
+                                                            <Form.Label>שם פרטי </Form.Label>
+                                                            <Form.Control ref={this.fname} type="text" placeholder=" שדה חובה " />
+                                                        </Form.Group>
+                                                    </Col>
+                                                    <Col>
+                                                        <Form.Group className=".d-inline" controlId="formBasic">
+                                                            <Form.Label>שם משפחה </Form.Label>
+                                                            <Form.Control ref={this.lname} type="text" placeholder=" שדה חובה" />
+                                                        </Form.Group>
+                                                    </Col>
+                                                    <Col>
+                                                        <Form.Group controlId="formBasic">
+                                                            <Form.Label>ת.ז  </Form.Label>
+                                                            <Form.Control ref={this.lname} type="text" placeholder=" שדה אופציונאלי" />
+                                                        </Form.Group>
+                                                    </Col>
+                                                </Row>
+                                                <Row>
+                                                    <Col>
+                                                        <Form.Group controlId="formBasic">
+                                                            <Form.Label>טלפון נייד  </Form.Label>
+                                                            <Form.Control ref={this.mobile} type="text" placeholder=" שדה חובה " />
+                                                        </Form.Group>
+                                                    </Col>
+                                                    <Col>
+                                                        <Form.Group controlId="formBasicEmail">
+                                                            <Form.Label>אימייל  </Form.Label>
+                                                            <Form.Control ref={this.email} type="email" placeholder=" שדה אופציונאלי" />
+                                                        </Form.Group>
+                                                    </Col>
+                                                </Row>
+                                            </Form>
+                                        </div>
+
+
+                                    </div>
+                                </Card.Body>
+                            </Accordion.Collapse>
+                        </Card>
+                        <Card>
+                            <Accordion.Toggle as={Card.Header} eventKey="1">
+                                <span>+</span>
+                                צילומי שיניים
+                            </Accordion.Toggle>
+                            <Accordion.Collapse eventKey="1">
+                                <Card.Body>Hello! I'm another body</Card.Body>
+                            </Accordion.Collapse>
+                        </Card>
+                        <Card>
+                            <Accordion.Toggle as={Card.Header} eventKey="2">
+                                <span>+</span>
+
+                                אורתודנטיה
+                                    </Accordion.Toggle>
+                            <Accordion.Collapse eventKey="2">
+                                <Card.Body>Hello! I'm another body</Card.Body>
+                            </Accordion.Collapse>
+                        </Card>
+                        <Card>
+                            <Accordion.Toggle as={Card.Header} eventKey="3">
+                                <span>+</span>
+
+                                צילומים פריאפיקליים
+                                    </Accordion.Toggle>
+                            <Accordion.Collapse eventKey="3">
+                                <Card.Body>Hello! I'm another body</Card.Body>
+                            </Accordion.Collapse>
+                        </Card>
+                        <Card>
+                            <Accordion.Toggle as={Card.Header} eventKey="4">
+                                <span>+</span>
+
+                                CT
+                                     </Accordion.Toggle>
+                            <Accordion.Collapse eventKey="4">
+                                <Card.Body>Hello! I'm another body</Card.Body>
+                            </Accordion.Collapse>
+                        </Card>
+                        <Card>
+                            <Accordion.Toggle as={Card.Header} eventKey="5">
+                                <span>+</span>
+
+                                הערות כלליות
+                                  </Accordion.Toggle>
+                            <Accordion.Collapse eventKey="5">
+                                <Card.Body>Hello! I'm another body</Card.Body>
+                            </Accordion.Collapse>
+                        </Card>
+                    </Accordion>
+
+                </div>
+
+                {/* <div className={step1}>
                     <h4>פרטי המטופל</h4>
                     <div>
 
@@ -557,14 +673,14 @@ class PatiantForm extends React.Component {
                     <Button className={sendFormBtn} onClick={this.sendForm} variant="primary" type="button">
                         שלח טופס
                     </Button>
-                </div>
-                
+                </div> */}
+
                 <Modal show={this.state.showModal} onHide={this.closeModal} size="md">
 
                     <Modal.Body className="text-center">
                         <h3>
                             טופס חדש נוצר, המטופל ודנטלפורם קיבלו העתק למייל!                        </h3>
-                            <Image src={emailsuccess} rounded />
+                        <Image src={emailsuccess} rounded />
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={this.closeModal}>

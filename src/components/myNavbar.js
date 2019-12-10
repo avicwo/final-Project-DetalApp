@@ -37,7 +37,7 @@ class myNavbar extends React.Component {
         return (
             <Navbar bg="primary" expand="lg" variant="dark">
                 {/* <span>{activeUser.fname}</span> */}
-                <Navbar.Brand href="/">דנטלפורם</Navbar.Brand>
+                <Navbar.Brand href="/">פנולייט</Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="mr-auto alight-right">

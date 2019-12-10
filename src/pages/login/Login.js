@@ -100,7 +100,7 @@ class Login extends React.Component {
 
                 <div className="container login">
                     <h1>הכנס למערכת</h1>
-                    <p>or <a href="#/signup">צור משתמש חדש</a></p>
+                    <p>או <a href="#/signup">צור משתמש חדש</a></p>
                     <Alert variant="danger" show={this.state.invalidLogin}>
                         Invalid email or password!
                 </Alert>
