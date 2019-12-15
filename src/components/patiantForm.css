@@ -6,9 +6,9 @@
     display: none;
     }
     
-    #inline-checkbox-1,#inline-checkbox-2,#inline-checkbox-3,#inline-checkbox-4,#inline-checkbox-5,#inline-checkbox-6,#inline-checkbox-7{
-    margin-right: 300px; ;
-    }
+    /* #inline-checkbox-1,#inline-checkbox-2,#inline-checkbox-3,#inline-checkbox-4,#inline-checkbox-5,#inline-checkbox-6,#inline-checkbox-7{
+    margin-right: 150px; 
+    } */
 
     .bgcolor{
         /* background-color: lightgray; */
@@ -40,7 +40,46 @@
     }
     .buttonwidth{
         display: inline;
-        width:100px;
+        /* width:100px; */
         margin-left: 5px;
-        margin-bottom: 0px;
+        /* margin-bottom: 0px; */
     }
+    .plusSign{
+        display: flex;
+        justify-content: space-between;
+
+    }
+
+.custom-control-label::before, 
+.custom-control-label::after {
+    top: .8rem;
+    width: 1.25rem;
+    height: 1.25rem;
+}
+
+/* .radioMargin{
+    margin-right: 10px;
+} */
+
+.form-check-input{
+padding-left: 10px !important;
+}
+.x4padding{
+    padding-right: 13px;
+}
+.removeColPadding{
+    padding-left: 5px;
+}
+.vl {
+    border-left: 1px solid lightgrey;
+    height: 50px;
+  }
+
+  .textAlignL{
+      text-align: left;
+  }
+.positionCenter{
+    display: flex;
+    justify-content: space-around;
+}
+  
